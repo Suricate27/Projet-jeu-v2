@@ -4,8 +4,7 @@ Balles::Balles(float positionX, float positionY, sf::RenderWindow * window){
 	dureeVie = clock.restart();
 	cercle = new sf::CircleShape(10);
 	cercle->setFillColor(sf::Color::Yellow);
-	cercle->setPosition(positionX, positionY);
-	
+	cercle->setPosition(positionX+taillePersonnage/2, positionY+ taillePersonnage/3);
 }
 
 void Balles::avancer(sf::Time duréeitération, sf::RenderWindow * window) {

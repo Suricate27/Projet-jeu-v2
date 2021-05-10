@@ -7,12 +7,14 @@
 #include "Map.h"
 #include "Arme.h"
 #include "Balles.h"
+#include "Ennemi.h"
 #define largeurEcran 2400
 #define longueurEcran 1500
 //fonction
 void paramVue(sf::View *vue, sf::Sprite *spritePerso, sf::RenderWindow *window, Personnage *hero);
 
 #define taillePersonnage 192
+
 int main() {
 	//objet
 	Personnage hero = Personnage(100, 100, "test");
@@ -23,7 +25,7 @@ int main() {
 	sf::Clock clock;
 	sf::Time Dureeiteration;
 	//cr�ation de 3 cercles
-	carte.creationCercle(0, 0);
+	Ennemi mechant = Ennemi(3);
 
 
 	//d�but de la boucle fenetre ouverte
@@ -49,6 +51,7 @@ int main() {
 		paramVue(&vue, hero.getSpritePerso(), &window, &hero); // param�trage de la vue
 		hero.deplacementBalle(Dureeiteration, &window);
 		window.draw(*hero.getSpritePerso()); // affichage de notre personnage
+		window.draw(*mechant.getSpriteEnnemi());
 		window.display();//affichage de la fen�tre
 	}
 }

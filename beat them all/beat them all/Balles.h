@@ -2,6 +2,7 @@
 #include <SFML/graphics.hpp>
 #include <iostream>
 #include <vector>
+#define taillePersonnage 192
 class Balles
 {
 protected:
