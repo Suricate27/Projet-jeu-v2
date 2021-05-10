@@ -28,10 +28,12 @@ public:
 	
 	Personnage(int vie, int dégat, std::string nom);
 	int getDimension();
-	void deplacement(sf::Time  duréeitération, sf::RenderWindow * window);
+	void deplacement(sf::Time  duréeitération);
 	void update(sf::Event event, sf::RenderWindow * window);
 	void testingCollision(std::vector<sf::CircleShape*>  * objets);
+	void deplacementBalle(sf::Time duréeitération, sf::RenderWindow * window);
 	sf::Sprite * getSpritePerso();
+
 	
 	
 };

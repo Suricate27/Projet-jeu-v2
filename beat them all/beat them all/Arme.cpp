@@ -9,7 +9,6 @@ Arme::Arme() {
 
 void Arme::tirer(float PosXJoueur,float PosYJoueur, sf::RenderWindow * window) {
 	if (munitions > 0) {
-		
 		Balles * balle = new Balles(PosXJoueur,PosYJoueur,window);
 		tableauBalles.push_back(balle);
 		munitions--;

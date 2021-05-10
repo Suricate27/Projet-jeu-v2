@@ -19,7 +19,7 @@ Personnage::Personnage(int vie, int dégat, std::string nom){
 	spritePerso.setPosition(0, longueurEcran - dimension); //démarre en bas de la fenêtre 
 }
 
-void Personnage::deplacement(sf::Time duréeitération, sf::RenderWindow * window) { // gère les naimation de déplacement et les déplacement 
+void Personnage::deplacement(sf::Time duréeitération) { // gère les naimation de déplacement et les déplacement 
 	
 	if (clockAnimation.getElapsedTime().asMilliseconds() >= (1/(float)vitesseDeplacement)*50000) // pour que la vitesse des animations soit liée à la vitesse du personnage j'ai définis 0.2 (1/5) parce que je trouvais ça ok
 	{
@@ -68,11 +68,18 @@ void Personnage::deplacement(sf::Time duréeitération, sf::RenderWindow * window)
 		updateFPS = true;
 	}
 
+}
+void Personnage::deplacementBalle(sf::Time duréeitération, sf::RenderWindow * window) {
+	int i = -1;
 	for (Balles * balle : *arme->getTableauBalles()) { // dessiner les cercles
 		balle->avancer(duréeitération, window);
-		//window->draw(balle);
+		i++;
+		sf::Time max = sf::milliseconds(4000);
+		if (balle->getDureeVie().asMilliseconds() >= max.asMilliseconds()) {
+			delete balle;
+			arme->getTableauBalles()->erase(arme->getTableauBalles()->begin() + i);
+		}	
 	}
-	
 }
 int Personnage::getDimension() {
 	return dimension;

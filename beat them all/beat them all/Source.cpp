@@ -43,15 +43,11 @@ int main() {
 				break;
 			}//gestion clavier 	
 		}
-		hero.deplacement(Dureeiteration, &window); // gestion annimation + d�placement
+		hero.deplacement(Dureeiteration); // gestion annimation + d�placement
 
 		window.clear(); //nettoyage
 		paramVue(&vue, hero.getSpritePerso(), &window, &hero); // param�trage de la vue
-		//std::cout <<  << std::endl;
-		//for (Balles * balle : *arme->getTableauBalles()) { // dessiner les cercles
-		//	std::cout << "flag" << std::endl;
-		//	balle->avancer(Dureeiteration);
-		//}
+		hero.deplacementBalle(Dureeiteration, &window);
 		window.draw(*hero.getSpritePerso()); // affichage de notre personnage
 		window.display();//affichage de la fen�tre
 	}
