@@ -14,7 +14,7 @@ class Personnage
 protected:
 	int vie;
 	int dégat;
-	int vitesseDeplacement = 200;
+	int vitesseDeplacement = 400;
 	std::string nom;
 	int dimension = 192;
 	enum direction { haut, gauche, bas, droite };

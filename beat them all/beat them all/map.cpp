@@ -9,3 +9,6 @@ void Map::creationCercle(float positionX, float positionY) { //crée les cercles
 	cercle->setPosition(positionX, positionY);
 	objets.push_back(cercle);
 }
+void Map::updateMap() {
+	
+}

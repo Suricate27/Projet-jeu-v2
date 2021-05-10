@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <SFML/graphics.hpp>
+#include "Arme.h"
 
 class Map 
 {
@@ -14,5 +15,6 @@ public:
 	void creationCercle(float positionX, float positionY);
 	void avancer();
 	std::vector<sf::CircleShape*> * getObjets();
+	void updateMap();
 };
 

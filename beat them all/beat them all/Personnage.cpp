@@ -1,5 +1,5 @@
 #include "Personnage.h"
-
+#include "Arme.h"
 #include <math.h>
 
 Personnage::Personnage(int vie, int dégat, std::string nom){
@@ -67,9 +67,11 @@ void Personnage::deplacement(sf::Time duréeitération, sf::RenderWindow * window)
 		animation.y = droite;
 		updateFPS = true;
 	}
-		for (Balles * balle : *arme->getTableauBalles()) { // dessiner les cercles
-			balle->avancer(duréeitération, window);
-		}
+
+	for (Balles * balle : *arme->getTableauBalles()) { // dessiner les cercles
+		balle->avancer(duréeitération, window);
+		//window->draw(balle);
+	}
 	
 }
 int Personnage::getDimension() {
