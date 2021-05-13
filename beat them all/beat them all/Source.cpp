@@ -1,5 +1,5 @@
 //test pour github partie Laurent
-// coucou
+// dev enemi
 #include <iostream>
 #include <SFML/graphics.hpp>
 #include <vector>
@@ -7,29 +7,31 @@
 #include "Map.h"
 #include "Arme.h"
 #include "Balles.h"
+#include "Ennemi.h"
 #define largeurEcran 2400
 #define longueurEcran 1500
 //fonction
 void paramVue(sf::View *vue, sf::Sprite *spritePerso, sf::RenderWindow *window, Personnage *hero);
 
 #define taillePersonnage 192
+
 int main() {
 	//objet
 	Personnage hero = Personnage(100, 100, "test");
 	Map carte;
 	//fen�tre
 	sf::RenderWindow window(sf::VideoMode(largeurEcran, longueurEcran), "Fenetre SFML"); //cr�ation de la fen�tre (dimension, titre)
-	sf::View vue; // d�claration de la vue
+	sf::View vue; // déclaration de la vue
 	sf::Clock clock;
 	sf::Time Dureeiteration;
-	//cr�ation de 3 cercles
-	carte.creationCercle(0, 0);
-
-
-	//d�but de la boucle fenetre ouverte
+	//création de 3 cercles
+	Ennemi * mechant = new Ennemi(3);
+	std::vector <Ennemi*> tabEnnemis;
+	tabEnnemis.push_back(mechant);
+	//début de la boucle fenetre ouverte
 	while (window.isOpen()) {
 		Dureeiteration = clock.restart();
-		sf::Event event; //  cr�ation d'un object evenement
+		sf::Event event; //  création d'un object evenement
 		window.setFramerateLimit(100); //FPS limit 100
 		while (window.pollEvent(event)) {
 
@@ -43,13 +45,16 @@ int main() {
 				break;
 			}//gestion clavier 	
 		}
-		hero.deplacement(Dureeiteration); // gestion annimation + d�placement
-
+		hero.deplacement(Dureeiteration); // gestion animation + déplacement
+		hero.testingCollision(hero.getArme()->getTableauBalles(), mechant, &tabEnnemis);
 		window.clear(); //nettoyage
-		paramVue(&vue, hero.getSpritePerso(), &window, &hero); // param�trage de la vue
+		paramVue(&vue, hero.getSpritePerso(), &window, &hero); // paramétrage de la vue
 		hero.deplacementBalle(Dureeiteration, &window);
 		window.draw(*hero.getSpritePerso()); // affichage de notre personnage
-		window.display();//affichage de la fen�tre
+		for (Ennemi * mechant : tabEnnemis) {
+			window.draw(*mechant->getSpriteEnnemi());
+		}
+		window.display();//affichage de la fenétre
 	}
 }
 void paramVue(sf::View *vue, sf::Sprite *spritePerso, sf::RenderWindow *window, Personnage *hero) {

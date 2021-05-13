@@ -2,6 +2,7 @@
 #include <SFML/graphics.hpp>
 #include <iostream>
 #include <vector>
+#define taillePersonnage 192
 class Balles
 {
 protected:
@@ -14,5 +15,7 @@ public:
 	void avancer(sf::Time duréeitération, sf::RenderWindow * window);
 	~Balles();
 	sf::Time getDureeVie();
+	float getPositionX();
+	float getPositionY();
 };
 

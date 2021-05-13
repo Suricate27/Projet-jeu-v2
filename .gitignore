@@ -411,3 +411,9 @@ FodyWeavers.xsd
 beat them all/.vs/beat them all/v16/.suo
 
 beat them all/.vs/beat them all/v16/Browse.VC.db
+
+*.vcxproj
+
+*.filters
+
+*.idb
