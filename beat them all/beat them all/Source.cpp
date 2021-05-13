@@ -26,7 +26,7 @@ int main() {
 	sf::Clock clock;
 	sf::Time Dureeiteration;
 	//création de 3 cercles
-	Ennemi * mechant = new Ennemi(3);
+	Ennemi * mechant = new Ennemi(4);
 	std::vector <Ennemi*> tabEnnemis;
 	tabEnnemis.push_back(mechant);
 	//début de la boucle fenetre ouverte

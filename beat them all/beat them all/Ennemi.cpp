@@ -6,13 +6,13 @@ Ennemi::Ennemi(int niveau) {
 	vitesse = 300*((niveau+2)/3); //vitesse par niveau (1|1.33|1.66|2)
 	animation = sf::Vector2i((13 - 3 * niveau), haut);
 	// chargement de la texture
-	if (!textureEnnemi.loadFromFile("Textures/Ennemi.png")) // vérif ouverture fichier
+	if (!textureEnnemi.loadFromFile("Textures/SpriteEnnemi.png")) // vérif ouverture fichier
 	{
 		std::cout << "Erreur chargement texture ennemi" << std::endl;
 	}
 	textureEnnemi.setSmooth(true);
 	spriteEnnemi.setTexture(textureEnnemi);
-	spriteEnnemi.setTextureRect(sf::IntRect((13 - 3 * niveau)*dimension, 3.2*dimension, dimension, 1.9* dimension)); // Pour que le premier affichage du personnage soit vers la droite
+	spriteEnnemi.setTextureRect(sf::IntRect((13 - 3 * niveau)*dimensionL, dimensionH, dimensionL, dimensionH)); // Pour que le premier affichage du personnage soit vers la droite
 	spriteEnnemi.setPosition(1000, 1200);
 }
 Ennemi::~Ennemi() {

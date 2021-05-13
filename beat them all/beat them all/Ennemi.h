@@ -11,7 +11,8 @@ protected:
 	int niveau;
 	int degat;
 	int vitesse;
-	int dimension = 64;
+	int dimensionH = 90;
+	int dimensionL = 60;
 	enum direction { bas, gauche, droite, haut };
 	sf::Vector2i animation;
 	sf::Texture textureEnnemi;
