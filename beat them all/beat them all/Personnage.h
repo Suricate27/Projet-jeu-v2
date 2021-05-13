@@ -2,6 +2,7 @@
 #include <string.h>
 #include <SFML/graphics.hpp>
 #include "Arme.h"
+#include "Ennemi.h"
 
 // en pixel par seconde || un define car prend moins de place qu'une constante.
 
@@ -30,8 +31,9 @@ public:
 	int getDimension();
 	void deplacement(sf::Time  duréeitération);
 	void update(sf::Event event, sf::RenderWindow * window);
-	void testingCollision(std::vector<sf::CircleShape*>  * objets);
+	void testingCollision(std::vector<Balles*>* objets, Ennemi * ennemi, std::vector<Ennemi*> * tabEnnemi);
 	void deplacementBalle(sf::Time duréeitération, sf::RenderWindow * window);
+	Arme  * getArme();
 	sf::Sprite * getSpritePerso();
 
 	

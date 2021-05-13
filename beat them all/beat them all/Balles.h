@@ -15,5 +15,7 @@ public:
 	void avancer(sf::Time duréeitération, sf::RenderWindow * window);
 	~Balles();
 	sf::Time getDureeVie();
+	float getPositionX();
+	float getPositionY();
 };
 

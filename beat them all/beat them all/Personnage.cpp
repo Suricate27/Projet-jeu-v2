@@ -1,6 +1,6 @@
 #include "Personnage.h"
-#include "Arme.h"
 #include <math.h>
+
 
 Personnage::Personnage(int vie, int dégat, std::string nom){
 	this->vie = vie;
@@ -125,18 +125,25 @@ void Personnage::update(sf::Event event, sf::RenderWindow * window) { // gestion
 		}
 		break;
 	}
+
 }// gestion des variables bool a true si une touche est enfoncée
 
-void Personnage::testingCollision(std::vector<sf::CircleShape* > * objets) {
+void Personnage::testingCollision(std::vector<Balles* > * objets, Ennemi * ennemi, std::vector<Ennemi*>* tabEnnemi) {
 	int i = -1;
-	for (sf::CircleShape * cercle :  *objets) {
+	for (Balles * cercle :  *objets) {
 		i++;
-		if (std::abs(spritePerso.getPosition().x + dimension / 2 - (cercle->getPosition().x + dimension / 2)) < dimension && std::abs(spritePerso.getPosition().y + dimension / 2 - (cercle->getPosition().y + dimension / 2)) < dimension) {
+		if (std::abs(ennemi->getSpriteEnnemi()->getPosition().x+ float( dimension / 2) - (cercle->getPositionX()+ float(dimension / 2))) < float(dimension) && std::abs(ennemi->getSpriteEnnemi()->getPosition().y + float(dimension / 2) - (cercle->getPositionY() + float(dimension / 2))) < float(dimension)) {
+			std::cout << "Touche gros fdp" << std::endl;
 			delete cercle;
 			objets->erase(objets->begin() + i);
+			delete ennemi;
+			tabEnnemi->erase(tabEnnemi->begin() + i);
 		}
 	}
 }
 sf::Sprite * Personnage::getSpritePerso() {
 	return &spritePerso;
+}
+Arme * Personnage::getArme() {
+	return arme;
 }

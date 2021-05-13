@@ -25,8 +25,9 @@ int main() {
 	sf::Clock clock;
 	sf::Time Dureeiteration;
 	//cr�ation de 3 cercles
-	Ennemi mechant = Ennemi(3);
-
+	Ennemi * mechant = new Ennemi(3);
+	std::vector <Ennemi*> tabEnnemis;
+	tabEnnemis.push_back(mechant);
 
 	//d�but de la boucle fenetre ouverte
 	while (window.isOpen()) {
@@ -45,13 +46,15 @@ int main() {
 				break;
 			}//gestion clavier 	
 		}
-		hero.deplacement(Dureeiteration); // gestion annimation + d�placement
-
+		hero.deplacement(Dureeiteration); // gestion animation + déplacement
+		hero.testingCollision(hero.getArme()->getTableauBalles(), mechant, &tabEnnemis);
 		window.clear(); //nettoyage
-		paramVue(&vue, hero.getSpritePerso(), &window, &hero); // param�trage de la vue
+		paramVue(&vue, hero.getSpritePerso(), &window, &hero); // paramétrage de la vue
 		hero.deplacementBalle(Dureeiteration, &window);
 		window.draw(*hero.getSpritePerso()); // affichage de notre personnage
-		window.draw(*mechant.getSpriteEnnemi());
+		for (Ennemi * mechant : tabEnnemis) {
+			window.draw(*mechant->getSpriteEnnemi());
+		}
 		window.display();//affichage de la fen�tre
 	}
 }

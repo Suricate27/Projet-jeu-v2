@@ -13,7 +13,7 @@ Ennemi::Ennemi(int niveau) {
 	textureEnnemi.setSmooth(true);
 	spriteEnnemi.setTexture(textureEnnemi);
 	spriteEnnemi.setTextureRect(sf::IntRect((13 - 3 * niveau)*dimension, 3.2*dimension, dimension, 1.9* dimension)); // Pour que le premier affichage du personnage soit vers la droite
-	spriteEnnemi.setPosition(0, 0);
+	spriteEnnemi.setPosition(1000, 1200);
 }
 Ennemi::~Ennemi() {
 

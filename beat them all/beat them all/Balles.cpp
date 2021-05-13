@@ -19,3 +19,9 @@ sf::Time Balles::getDureeVie() {
 	dureeVie += clock.restart();
 	return dureeVie;
 }
+float Balles::getPositionX() {
+	return cercle->getPosition().x;
+}
+float Balles::getPositionY() {
+	return cercle->getPosition().y;
+}
