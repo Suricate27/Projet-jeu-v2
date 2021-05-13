@@ -14,6 +14,7 @@ protected:
 	int VitesseArme = 1;
 	int vitesseArmeMax = 25;
 	bool distance;
+	sf::Clock timerTir;
 	std::vector<Balles*> tableauBalles=std::vector<Balles*>(); //tableau de cercle
 public:
 	Arme();

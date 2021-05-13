@@ -164,3 +164,9 @@ sf::Sprite * Personnage::getSpritePerso() {
 Arme * Personnage::getArme() {
 	return arme;
 }
+int Personnage::getPositionX() {
+	return spritePerso.getPosition().x;
+}
+int Personnage::getPositionY() {
+	return spritePerso.getPosition().y;
+}

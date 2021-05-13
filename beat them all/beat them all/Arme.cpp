@@ -9,18 +9,15 @@ Arme::Arme() {
 }
 
 void Arme::tirer(float PosXJoueur,float PosYJoueur, sf::RenderWindow * window,int direction) {
-	VitesseArme++;
-	if (VitesseArme > vitesseArmeMax) {
+	if (timerTir.getElapsedTime().asMilliseconds() > 200)
+	{
 		if (munitions > 0) {
 			Balles * balle = new Balles(PosXJoueur, PosYJoueur, direction, window);
 			tableauBalles.push_back(balle);
 			munitions--;
-			std::cout << "Tableau de balles : " << tableauBalles.size() << std::endl;
-			std::cout << "Feu" << std::endl;
+			timerTir.restart();
 		}
-		VitesseArme=0;
 	}
-	VitesseArme++;
 	
 }
 int Arme::getVitesseArme() {

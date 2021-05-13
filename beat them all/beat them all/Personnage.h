@@ -25,7 +25,7 @@ protected:
 	sf::Texture texturePerso;
 	sf::Sprite spritePerso;
 	sf::Clock clockAnimation;
-	Arme *arme;
+	Arme * arme;
 public:
 	
 	Personnage(int vie, int dégat, std::string nom);
@@ -36,6 +36,8 @@ public:
 	void deplacementBalle(sf::Time duréeitération, sf::RenderWindow * window);
 	Arme  * getArme();
 	sf::Sprite * getSpritePerso();
+	int getPositionX();
+	int getPositionY();
 
 	
 	

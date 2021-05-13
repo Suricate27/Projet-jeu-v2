@@ -1,6 +1,6 @@
 //test pour github partie Laurent
 // dev enemi
-//test
+// test
 #include <iostream>
 #include <SFML/graphics.hpp>
 #include <vector>
@@ -26,7 +26,7 @@ int main() {
 	sf::Clock clock;
 	sf::Time Dureeiteration;
 	//création de 3 cercles
-	Ennemi * mechant = new Ennemi(4);
+	Ennemi * mechant = new Ennemi(1);
 	std::vector <Ennemi*> tabEnnemis;
 	tabEnnemis.push_back(mechant);
 	//début de la boucle fenetre ouverte
@@ -35,7 +35,6 @@ int main() {
 		sf::Event event; //  création d'un object evenement
 		window.setFramerateLimit(100); //FPS limit 100
 		while (window.pollEvent(event)) {
-
 			switch (event.type)
 			{
 			case sf::Event::Closed:  // permet de fermer la fen�tre si on clique sur la croix
@@ -47,7 +46,8 @@ int main() {
 			}//gestion clavier 	
 		}
 		hero.deplacement(Dureeiteration,&window); // gestion animation + déplacement
-		hero.testingCollision(hero.getArme(), mechant, &tabEnnemis);
+		hero.testingCollision(hero.getArme(), mechant, &tabEnnemis); 
+		mechant->deplacement(hero.getPositionX(), hero.getPositionY());
 		window.clear(); //nettoyage
 		paramVue(&vue, hero.getSpritePerso(), &window, &hero); // paramétrage de la vue
 		hero.deplacementBalle(Dureeiteration, &window);
