@@ -21,18 +21,17 @@ int main() {
 	Map carte;
 	//fen�tre
 	sf::RenderWindow window(sf::VideoMode(largeurEcran, longueurEcran), "Fenetre SFML"); //cr�ation de la fen�tre (dimension, titre)
-	sf::View vue; // d�claration de la vue
+	sf::View vue; // déclaration de la vue
 	sf::Clock clock;
 	sf::Time Dureeiteration;
-	//cr�ation de 3 cercles
+	//création de 3 cercles
 	Ennemi * mechant = new Ennemi(3);
 	std::vector <Ennemi*> tabEnnemis;
 	tabEnnemis.push_back(mechant);
-
-	//d�but de la boucle fenetre ouverte
+	//début de la boucle fenetre ouverte
 	while (window.isOpen()) {
 		Dureeiteration = clock.restart();
-		sf::Event event; //  cr�ation d'un object evenement
+		sf::Event event; //  création d'un object evenement
 		window.setFramerateLimit(100); //FPS limit 100
 		while (window.pollEvent(event)) {
 
@@ -55,7 +54,7 @@ int main() {
 		for (Ennemi * mechant : tabEnnemis) {
 			window.draw(*mechant->getSpriteEnnemi());
 		}
-		window.display();//affichage de la fen�tre
+		window.display();//affichage de la fenétre
 	}
 }
 void paramVue(sf::View *vue, sf::Sprite *spritePerso, sf::RenderWindow *window, Personnage *hero) {
