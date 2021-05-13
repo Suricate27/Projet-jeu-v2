@@ -23,7 +23,7 @@ public:
 	int getDegat();
 	int getVie();
 	void deplacement();
-	void setVie();
+	void setVie(int degat);
 	sf::Sprite * getSpriteEnnemi();
 };
 

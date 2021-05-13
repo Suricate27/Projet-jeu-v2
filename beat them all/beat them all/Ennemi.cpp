@@ -30,7 +30,7 @@ int Ennemi::getVie() {
 void Ennemi::deplacement() {
 
 }
-void Ennemi::setVie() {
+void Ennemi::setVie(int degat) {
 
 }
 sf::Sprite * Ennemi::getSpriteEnnemi() {

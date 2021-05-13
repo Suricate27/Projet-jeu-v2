@@ -42,12 +42,12 @@ int main() {
 				window.close();
 				break;
 			default:
-				hero.update(event, &window);
+				hero.update(event);
 				break;
 			}//gestion clavier 	
 		}
-		hero.deplacement(Dureeiteration); // gestion animation + déplacement
-		hero.testingCollision(hero.getArme()->getTableauBalles(), mechant, &tabEnnemis);
+		hero.deplacement(Dureeiteration,&window); // gestion animation + déplacement
+		hero.testingCollision(hero.getArme(), mechant, &tabEnnemis);
 		window.clear(); //nettoyage
 		paramVue(&vue, hero.getSpritePerso(), &window, &hero); // paramétrage de la vue
 		hero.deplacementBalle(Dureeiteration, &window);
