@@ -408,6 +408,10 @@ FodyWeavers.xsd
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio,c++
 *.ipch
 
+beat them all/.vs/beat them all/v16/.suo
+
+beat them all/.vs/beat them all/v16/Browse.VC.db
+
 *.vcxproj
 
 *.filters
