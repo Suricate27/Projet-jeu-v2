@@ -103,7 +103,7 @@ void Personnage::update(sf::Event event, sf::RenderWindow * window) { // gestion
 			break;
 		case sf::Keyboard::Space:
 			
-			arme->tirer(spritePerso.getPosition().x, spritePerso.getPosition().y,window);
+			arme->tirer(spritePerso.getPosition().x, spritePerso.getPosition().y,window,1);
 			break;
 		}
 		break;

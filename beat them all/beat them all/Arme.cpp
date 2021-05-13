@@ -7,9 +7,9 @@ Arme::Arme() {
 	std::cout << "Apparition arme" << std::endl;
 }
 
-void Arme::tirer(float PosXJoueur,float PosYJoueur, sf::RenderWindow * window) {
+void Arme::tirer(float PosXJoueur,float PosYJoueur, sf::RenderWindow * window,int direction) {
 	if (munitions > 0) {
-		Balles * balle = new Balles(PosXJoueur,PosYJoueur,window);
+		Balles * balle = new Balles(PosXJoueur,PosYJoueur, direction,window);
 		tableauBalles.push_back(balle);
 		munitions--;
 		std::cout << "Tableau de balles : " << tableauBalles.size()<< std::endl;
@@ -21,4 +21,6 @@ void Arme::recharger() {
 }
 std::vector <Balles*>   *Arme::getTableauBalles() {
 	return &tableauBalles;
+}
+void Arme::setDirectionBalle(short int direction) {
 }

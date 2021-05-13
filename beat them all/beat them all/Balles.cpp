@@ -1,10 +1,11 @@
 #include "Balles.h"
-Balles::Balles(float positionX, float positionY, sf::RenderWindow * window){
+Balles::Balles(float positionX, float positionY,int direction, sf::RenderWindow * window){
 	std::cout << "création balles" << std::endl;
 	dureeVie = clock.restart();
 	cercle = new sf::CircleShape(10);
 	cercle->setFillColor(sf::Color::Yellow);
 	cercle->setPosition(positionX+taillePersonnage/2, positionY+ taillePersonnage/3);
+	this->vitesse = this->vitesse*direction;
 }
 
 void Balles::avancer(sf::Time duréeitération, sf::RenderWindow * window) {
