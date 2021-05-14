@@ -1,6 +1,6 @@
 //test pour github partie Laurent
 // dev enemi
-//test
+// test
 #include <iostream>
 #include <SFML/graphics.hpp>
 #include <vector>
@@ -25,8 +25,12 @@ int main() {
 	sf::View vue; // déclaration de la vue
 	sf::Clock clock;
 	sf::Time Dureeiteration;
+	sf::Text texte;
+	texte.setString("test");
+	texte.setPosition(0, 0);
+	texte.setCharacterSize(60);
 	//création de 3 cercles
-	Ennemi * mechant = new Ennemi(3);
+	Ennemi * mechant = new Ennemi(1);
 	std::vector <Ennemi*> tabEnnemis;
 	tabEnnemis.push_back(mechant);
 	//début de la boucle fenetre ouverte
@@ -35,23 +39,25 @@ int main() {
 		sf::Event event; //  création d'un object evenement
 		window.setFramerateLimit(100); //FPS limit 100
 		while (window.pollEvent(event)) {
-
 			switch (event.type)
 			{
 			case sf::Event::Closed:  // permet de fermer la fen�tre si on clique sur la croix
 				window.close();
 				break;
 			default:
-				hero.update(event, &window);
+				hero.update(event);
 				break;
 			}//gestion clavier 	
 		}
-		hero.deplacement(Dureeiteration); // gestion animation + déplacement
-		hero.testingCollision(hero.getArme()->getTableauBalles(), mechant, &tabEnnemis);
+		hero.deplacement(Dureeiteration,&window); // gestion animation + déplacement
+		hero.testingCollision(hero.getArme(), mechant, &tabEnnemis); 
+		mechant->deplacement(hero.getPositionX(), hero.getPositionY());
 		window.clear(); //nettoyage
 		paramVue(&vue, hero.getSpritePerso(), &window, &hero); // paramétrage de la vue
 		hero.deplacementBalle(Dureeiteration, &window);
 		window.draw(*hero.getSpritePerso()); // affichage de notre personnage
+		
+		window.draw(texte);
 		for (Ennemi * mechant : tabEnnemis) {
 			window.draw(*mechant->getSpriteEnnemi());
 		}

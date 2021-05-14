@@ -19,7 +19,7 @@ Personnage::Personnage(int vie, int dégat, std::string nom){
 	spritePerso.setPosition(0, longueurEcran - dimension); //démarre en bas de la fenêtre 
 }
 
-void Personnage::deplacement(sf::Time duréeitération) { // gère les naimation de déplacement et les déplacement 
+void Personnage::deplacement(sf::Time duréeitération, sf::RenderWindow * window) { // gère les naimation de déplacement et les déplacement 
 	
 	if (clockAnimation.getElapsedTime().asMilliseconds() >= (1/(float)vitesseDeplacement)*50000) // pour que la vitesse des animations soit liée à la vitesse du personnage j'ai définis 0.2 (1/5) parce que je trouvais ça ok
 	{
@@ -63,9 +63,12 @@ void Personnage::deplacement(sf::Time duréeitération) { // gère les naimation de
 		if (spritePerso.getPosition().x <= 10000 - dimension) {
 			spritePerso.move( vitesseDeplacement*duréeitération.asSeconds(), 0);
 		}
-
 		animation.y = droite;
 		updateFPS = true;
+	}
+	if (tirer) {
+		arme->tirer(spritePerso.getPosition().x, spritePerso.getPosition().y, window, direction);
+		
 	}
 
 }
@@ -84,7 +87,7 @@ void Personnage::deplacementBalle(sf::Time duréeitération, sf::RenderWindow * wi
 int Personnage::getDimension() {
 	return dimension;
 }
-void Personnage::update(sf::Event event, sf::RenderWindow * window) { // gestion des variables bool a true si une touche est enfoncée
+void Personnage::update(sf::Event event) { // gestion des variables bool a true si une touche est enfoncée
 	switch (event.type) {
 	case sf::Event::KeyPressed: // passe les variables bool à 1 si la touche est enfoncée
 		switch (event.key.code)
@@ -94,16 +97,20 @@ void Personnage::update(sf::Event event, sf::RenderWindow * window) { // gestion
 			break;
 		case sf::Keyboard::Q:
 			moveLeft = 1;
+			direction = -1;
 			break;
 		case sf::Keyboard::S:
 			moveDown = 1;
 			break;
 		case sf::Keyboard::D:
 			moveRight = 1;
+			direction = 1;
 			break;
 		case sf::Keyboard::Space:
-			
-			arme->tirer(spritePerso.getPosition().x, spritePerso.getPosition().y,window,1);
+			tirer = true;
+			break;
+		case sf::Keyboard::R:
+			arme->recharger();
 			break;
 		}
 		break;
@@ -122,28 +129,44 @@ void Personnage::update(sf::Event event, sf::RenderWindow * window) { // gestion
 		case sf::Keyboard::D:
 			moveRight = 0;
 			break;
+		case sf::Keyboard::Space:
+			tirer = false;
+			break;
 		}
 		break;
 	}
 
 }// gestion des variables bool a true si une touche est enfoncée
 
-void Personnage::testingCollision(std::vector<Balles* > * objets, Ennemi * ennemi, std::vector<Ennemi*>* tabEnnemi) {
-	int i = -1;
-	for (Balles * cercle :  *objets) {
-		i++;
-		if (std::abs(ennemi->getSpriteEnnemi()->getPosition().x+ float( dimension / 2) - (cercle->getPositionX()+ float(dimension / 2))) < float(dimension) && std::abs(ennemi->getSpriteEnnemi()->getPosition().y + float(dimension / 2) - (cercle->getPositionY() + float(dimension / 2))) < float(dimension)) {
-			std::cout << "Touche gros fdp" << std::endl;
-			delete cercle;
-			objets->erase(objets->begin() + i);
-			delete ennemi;
-			tabEnnemi->erase(tabEnnemi->begin() + i);
+void Personnage::testingCollision(Arme * arme, Ennemi * ennemi, std::vector<Ennemi*>* tabEnnemi) {
+	int i = -1,j=-1;
+	for (Ennemi * ennemi : *tabEnnemi) {
+		j++;
+		for (Balles * cercle :  *arme->getTableauBalles()) {
+			i++;
+			if (std::abs(ennemi->getSpriteEnnemi()->getPosition().x+ float( dimension / 2) - (cercle->getPositionX()+ float(dimension / 2))) < float(dimension) && std::abs(ennemi->getSpriteEnnemi()->getPosition().y + float(dimension / 2) - (cercle->getPositionY() + float(dimension / 2))) < float(dimension)) {
+				std::cout << "Touche gros fdp" << std::endl;
+				ennemi->recevoirDegat(arme->getArmeDegat());
+				if (ennemi->getVie() <= 0) {
+					delete ennemi;
+					tabEnnemi->erase(tabEnnemi->begin() + j);
+				}
+				delete cercle;
+				arme->getTableauBalles()->erase(arme->getTableauBalles()->begin() + i);
+			}
 		}
 	}
+
 }
 sf::Sprite * Personnage::getSpritePerso() {
 	return &spritePerso;
 }
 Arme * Personnage::getArme() {
 	return arme;
+}
+int Personnage::getPositionX() {
+	return spritePerso.getPosition().x;
+}
+int Personnage::getPositionY() {
+	return spritePerso.getPosition().y;
 }

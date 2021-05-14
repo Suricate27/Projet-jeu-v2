@@ -26,3 +26,4 @@ float Balles::getPositionX() {
 float Balles::getPositionY() {
 	return cercle->getPosition().y;
 }
+

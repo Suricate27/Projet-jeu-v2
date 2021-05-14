@@ -4,17 +4,24 @@ Arme::Arme() {
 	nom = "pistolet";
 	type = classe{ léger };
 	distance = 1;
+	degat = 10;
 	std::cout << "Apparition arme" << std::endl;
 }
 
 void Arme::tirer(float PosXJoueur,float PosYJoueur, sf::RenderWindow * window,int direction) {
-	if (munitions > 0) {
-		Balles * balle = new Balles(PosXJoueur,PosYJoueur, direction,window);
-		tableauBalles.push_back(balle);
-		munitions--;
-		std::cout << "Tableau de balles : " << tableauBalles.size()<< std::endl;
-		std::cout << "Feu" << std::endl;
+	if (timerTir.getElapsedTime().asMilliseconds() > 200)
+	{
+		if (munitions > 0) {
+			Balles * balle = new Balles(PosXJoueur, PosYJoueur, direction, window);
+			tableauBalles.push_back(balle);
+			munitions--;
+			timerTir.restart();
+		}
 	}
+	
+}
+int Arme::getVitesseArme() {
+	return VitesseArme;
 }
 void Arme::recharger() {
 	munitions = 32;
