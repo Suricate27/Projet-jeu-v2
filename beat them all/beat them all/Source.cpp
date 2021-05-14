@@ -4,13 +4,14 @@
 #include <iostream>
 #include <SFML/graphics.hpp>
 #include <vector>
+#include <Windows.h> 
 #include "Personnage.h"
 #include "Map.h"
 #include "Arme.h"
 #include "Balles.h"
 #include "Ennemi.h"
-#define largeurEcran 2400
-#define longueurEcran 1500
+#define largeurEcran (GetSystemMetrics(SM_CXSCREEN)/4*3) //3/4 de la largeur de l'écran
+#define longueurEcran (GetSystemMetrics(SM_CYSCREEN)/4*3)//3/4 de la longueur de l'écran
 //fonction
 void paramVue(sf::View *vue, sf::Sprite *spritePerso, sf::RenderWindow *window, Personnage *hero);
 
@@ -21,7 +22,7 @@ int main() {
 	Personnage hero = Personnage(100, 100, "test");
 	Map carte;
 	//fen�tre
-	sf::RenderWindow window(sf::VideoMode(largeurEcran, longueurEcran), "Fenetre SFML"); //cr�ation de la fen�tre (dimension, titre)
+	sf::RenderWindow window(sf::VideoMode(largeurEcran, longueurEcran), "Beat Them All", sf::Style::Close); //cr�ation de la fen�tre (dimension, titre)
 	sf::View vue; // déclaration de la vue
 	sf::Clock clock;
 	sf::Time Dureeiteration;
@@ -71,3 +72,6 @@ void paramVue(sf::View *vue, sf::Sprite *spritePerso, sf::RenderWindow *window, 
 	window->setView(*vue); // affichage de la vue 
 
 }
+
+
+
