@@ -52,8 +52,8 @@ int main() {
 		hero.deplacement(Dureeiteration,&window); // gestion animation + déplacement
 		hero.testingCollision(hero.getArme(), mechant, &tabEnnemis); 
 		mechant->deplacement(hero.getPositionX(), hero.getPositionY());
-		window.clear(); //nettoyage
-		paramVue(&vue, hero.getSpritePerso(), &window, &hero); // paramétrage de la vue
+		window.clear();//nettoyage
+		paramVue(&vue, hero.getSpritePerso(), &window, &hero);// paramétrage de la vue
 		window.draw(*hero.getSpritePerso()); // affichage de notre personnage
 		window.draw(texte);
 		for (Ennemi * mechant : tabEnnemis) {
