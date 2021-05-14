@@ -6,7 +6,7 @@ Ennemi::Ennemi(int niveau) {
 	vitesse = 2*((niveau+2)/3); //vitesse par niveau (1|1.33|1.66|2)
 	animation = sf::Vector2i((13 - 3 * niveau), haut);
 	// chargement de la texture
-	if (!textureEnnemi.loadFromFile("Textures/SpriteEnnemi.png")) // vérif ouverture fichier
+	if (!textureEnnemi.loadFromFile("Textures/SpriteEnnemi.png")) // vï¿½rif ouverture fichier
 	{
 		std::cout << "Erreur chargement texture ennemi" << std::endl;
 	}

@@ -25,6 +25,10 @@ int main() {
 	sf::View vue; // déclaration de la vue
 	sf::Clock clock;
 	sf::Time Dureeiteration;
+	sf::Text texte;
+	texte.setString("test");
+	texte.setPosition(0, 0);
+	texte.setCharacterSize(60);
 	//création de 3 cercles
 	Ennemi * mechant = new Ennemi(1);
 	std::vector <Ennemi*> tabEnnemis;
@@ -52,6 +56,8 @@ int main() {
 		paramVue(&vue, hero.getSpritePerso(), &window, &hero); // paramétrage de la vue
 		hero.deplacementBalle(Dureeiteration, &window);
 		window.draw(*hero.getSpritePerso()); // affichage de notre personnage
+		
+		window.draw(texte);
 		for (Ennemi * mechant : tabEnnemis) {
 			window.draw(*mechant->getSpriteEnnemi());
 		}
