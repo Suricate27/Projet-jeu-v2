@@ -1,6 +1,5 @@
 #include "Balles.h"
 Balles::Balles(float positionX, float positionY,int direction, sf::RenderWindow * window){
-	std::cout << "création balles" << std::endl;
 	dureeVie = clock.restart();
 	cercle = new sf::CircleShape(10);
 	cercle->setFillColor(sf::Color::Yellow);
@@ -13,7 +12,6 @@ void Balles::avancer(sf::Time duréeitération, sf::RenderWindow * window) {
 	window->draw(*cercle);
 }
 Balles::~Balles() {
-	//std::cout << "balle détruite" << std::endl;
 	delete cercle;
 }
 sf::Time Balles::getDureeVie() {

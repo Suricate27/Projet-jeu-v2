@@ -144,8 +144,10 @@ void Personnage::testingCollision(Arme * arme, Ennemi * ennemi, std::vector<Enne
 		j++;
 		for (Balles * cercle :  *arme->getTableauBalles()) {
 			i++;
-			if (std::abs(ennemi->getSpriteEnnemi()->getPosition().x+ float( dimension / 2) - (cercle->getPositionX()+ float(dimension / 2))) < float(dimension) && std::abs(ennemi->getSpriteEnnemi()->getPosition().y + float(dimension / 2) - (cercle->getPositionY() + float(dimension / 2))) < float(dimension)) {
-				std::cout << "Touche gros fdp" << std::endl;
+			std::cout <<"distance : "<< (ennemi->getSpriteEnnemi()->getPosition().y + float(ennemi->getDimensionH() / 2) - (cercle->getPositionY() + float(ennemi->getDimensionH() / 2))) << std::endl;
+			//std::cout <<"taille : "<< float(ennemi->getDimensionH()) << std::endl;
+			if (std::abs(ennemi->getSpriteEnnemi()->getPosition().x+ float(ennemi->getDimensionL() / 2) - (cercle->getPositionX()+ float(ennemi->getDimensionL() / 2))) < float(0.8*ennemi->getDimensionL()) && std::abs(ennemi->getSpriteEnnemi()->getPosition().y + float(ennemi->getDimensionH() / 2) - (cercle->getPositionY() + float(ennemi->getDimensionH() / 2))) < float(0.8*ennemi->getDimensionH())) {
+				std::cout << "Touche gros" << std::endl;
 				ennemi->recevoirDegat(arme->getArmeDegat());
 				if (ennemi->getVie() <= 0) {
 					delete ennemi;

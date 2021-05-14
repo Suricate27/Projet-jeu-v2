@@ -54,13 +54,12 @@ int main() {
 		mechant->deplacement(hero.getPositionX(), hero.getPositionY());
 		window.clear(); //nettoyage
 		paramVue(&vue, hero.getSpritePerso(), &window, &hero); // paramétrage de la vue
-		hero.deplacementBalle(Dureeiteration, &window);
 		window.draw(*hero.getSpritePerso()); // affichage de notre personnage
-		
 		window.draw(texte);
 		for (Ennemi * mechant : tabEnnemis) {
 			window.draw(*mechant->getSpriteEnnemi());
 		}
+		hero.deplacementBalle(Dureeiteration, &window);
 		window.display();//affichage de la fenétre
 	}
 }

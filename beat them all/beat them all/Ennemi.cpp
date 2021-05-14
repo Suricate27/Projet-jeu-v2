@@ -3,7 +3,7 @@ Ennemi::Ennemi(int niveau) {
 	vie = 100*niveau;
 	degat = 5*niveau;
 	this->niveau = niveau;
-	vitesse = 2*((niveau+2)/3); //vitesse par niveau (1|1.33|1.66|2)
+	vitesse = (niveau+2)/3*0.9; //vitesse par niveau (1|1.33|1.66|2)
 	animation = sf::Vector2i((13 - 3 * niveau), haut);
 	// chargement de la texture
 	if (!textureEnnemi.loadFromFile("Textures/SpriteEnnemi.png")) // v�rif ouverture fichier
@@ -61,4 +61,10 @@ void Ennemi::setVie(int degat) {
 }
 sf::Sprite * Ennemi::getSpriteEnnemi() {
 	return &spriteEnnemi;
+}
+int Ennemi::getDimensionH() {
+	return dimensionH;
+}
+int Ennemi::getDimensionL() {
+	return dimensionL;
 }
