@@ -9,6 +9,7 @@
 #include "Arme.h"
 #include "Balles.h"
 #include "Ennemi.h"
+#include <ShellScalingApi.h>
 #define largeurEcran 2400
 #define longueurEcran 1500
 //fonction
@@ -33,6 +34,8 @@ int main() {
 	Ennemi * mechant = new Ennemi(1);
 	std::vector <Ennemi*> tabEnnemis;
 	tabEnnemis.push_back(mechant);
+	Map niveau1;
+	niveau1.creationBoiteSecours(1000, 1000);
 	//début de la boucle fenetre ouverte
 	while (window.isOpen()) {
 		Dureeiteration = clock.restart();
@@ -50,12 +53,16 @@ int main() {
 			}//gestion clavier 	
 		}
 		hero.deplacement(Dureeiteration,&window); // gestion animation + déplacement
-		hero.testingCollision(hero.getArme(), mechant, &tabEnnemis); 
+		hero.testingCollision(hero.getArme(), mechant, &tabEnnemis,niveau1.getTabBoiteSecours());
 		mechant->deplacement(hero.getPositionX(), hero.getPositionY());
+		hero.regenerationVie();
 		window.clear();//nettoyage
 		paramVue(&vue, hero.getSpritePerso(), &window, &hero);// paramétrage de la vue
 		window.draw(*hero.getSpritePerso()); // affichage de notre personnage
 		window.draw(texte);
+		for (sf::CircleShape * objet : *niveau1.getTabBoiteSecours()) {
+			window.draw(*objet);
+		}
 		for (Ennemi * mechant : tabEnnemis) {
 			window.draw(*mechant->getSpriteEnnemi());
 		}
@@ -68,7 +75,7 @@ void paramVue(sf::View *vue, sf::Sprite *spritePerso, sf::RenderWindow *window, 
 	vue->reset(sf::FloatRect(0, 0, largeurEcran, longueurEcran)); // declaration d'une vue qui d�marre en 0,0 et qui fait la taille de la fen�tre
 	sf::Vector2f position(largeurEcran / 2, longueurEcran / 2); //vue au centre ecran 
 
-	position.x = spritePerso->getPosition().x + (hero->getDimension() / 2) - (largeurEcran*0.666); // la vue vers la gauche peut bouger mais pas avant que le perso soit � 2/3 de l'ecran
+	position.x = spritePerso->getPosition().x + (hero->getDimensionH() / 2) - (largeurEcran*0.666); // la vue vers la gauche peut bouger mais pas avant que le perso soit � 2/3 de l'ecran
 	position.y = 0; // la vue verticale ne bouge pas
 
 	if (position.x <= 0)position.x = 0; // si la vue doit d�passer l'ecran vers la gauche, elle ne le fait pas
