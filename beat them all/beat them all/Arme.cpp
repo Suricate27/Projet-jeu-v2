@@ -16,6 +16,7 @@ void Arme::tirer(float PosXJoueur,float PosYJoueur, sf::RenderWindow * window,in
 			tableauBalles.push_back(balle);
 			munitions--;
 			timerTir.restart();
+
 		}
 	}
 	

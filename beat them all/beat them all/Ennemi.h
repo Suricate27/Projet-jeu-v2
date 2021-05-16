@@ -1,11 +1,11 @@
 #pragma once
 #include <SFML/graphics.hpp>
 #include <iostream>
-#include <Windows.h> 
+#include <Windows.h>
+#include <math.h>
 
-#define largeurEcran (GetSystemMetrics(SM_CXSCREEN)/4*3)//3/4 de la largeur de l'écran
-#define longueurEcran (GetSystemMetrics(SM_CYSCREEN)/4*3)//3/4 de la longueur de l'écran
-
+#define longueurEcran 500
+#define largeurEcran 1000
 class Ennemi
 {
 protected:
@@ -32,5 +32,6 @@ public:
 	sf::Sprite * getSpriteEnnemi();
 	int getDimensionH();
 	int getDimensionL();
+	void toucheCac();
 };
 

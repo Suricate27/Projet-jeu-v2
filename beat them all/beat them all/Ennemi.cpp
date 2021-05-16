@@ -12,8 +12,9 @@ Ennemi::Ennemi(int niveau) {
 	}
 	textureEnnemi.setSmooth(true);
 	spriteEnnemi.setTexture(textureEnnemi);
+	srand(time(NULL));
 	spriteEnnemi.setTextureRect(sf::IntRect((13 - 3 * niveau)*dimensionL, dimensionH, dimensionL, dimensionH)); // Pour que le premier affichage du personnage soit vers la droite
-	spriteEnnemi.setPosition(1000, 1200);
+	spriteEnnemi.setPosition((rand()%700)+300,(rand()%200)+300-dimensionH);//somme des 2 doit faire le chiffre max
 }
 Ennemi::~Ennemi() {
 
@@ -28,7 +29,7 @@ int Ennemi::getVie() {
 	return vie;
 }
 void Ennemi::deplacement(int positionPersonnageX,int positionPersonnageY) {
-	if (abs(positionPersonnageX - spriteEnnemi.getPosition().x) > 100) {
+	if (abs(positionPersonnageX - spriteEnnemi.getPosition().x) > 50) {
 		if (positionPersonnageX > spriteEnnemi.getPosition().x) {
 			spriteEnnemi.move(vitesse, 0);
 			if (nombreSprite == 0)nombreSprite = 3;
@@ -61,4 +62,7 @@ int Ennemi::getDimensionH() {
 }
 int Ennemi::getDimensionL() {
 	return dimensionL;
+}
+void Ennemi::toucheCac() {
+	spriteEnnemi.move(40, 0);
 }

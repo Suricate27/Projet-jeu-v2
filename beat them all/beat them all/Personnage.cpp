@@ -35,10 +35,11 @@ void Personnage::deplacement(sf::Time duréeitération, sf::RenderWindow * window)
 
 		// il va constament tester ( 100 fois par seconde ) s'il doit bouger. Si les variables sont vraies alors il va bouger
 		// Le problème de calculer la vitesse avec des pixels c'est que si la machine ram bah le personnage est lent et ça doit être independant.
+		
 		// Donc on va calculer le déplacement avec temps passé avec la touche enfoncée.
 	
 	if (moveUp) {
-		if (spritePerso.getPosition().y >= 0.66 * longueurEcran) { //empecher de monter plus haut que 2/3 de l'écran
+		if (spritePerso.getPosition().y >= 0.66 * longueurEcran-dimensionH) { //empecher de monter plus haut que 2/3 de l'écran
 			spritePerso.move(0, -vitesseDeplacement*duréeitération.asSeconds());
 		}
 		animation.y = haut;
@@ -67,7 +68,18 @@ void Personnage::deplacement(sf::Time duréeitération, sf::RenderWindow * window)
 		updateFPS = true;
 	}
 	if (tirer) {
-		arme->tirer(spritePerso.getPosition().x, spritePerso.getPosition().y, window, direction,dimensionH,dimensionL);
+		if (clockfatigue.getElapsedTime().asMilliseconds() > 200)
+		{
+			if (regenerationFatigue == false) {
+				arme->tirer(spritePerso.getPosition().x, spritePerso.getPosition().y, window, direction, dimensionH, dimensionL);
+				setFatigue();
+				vitesseDeplacement = 400 * fatigue;
+				if (vitesseDeplacement < 1)vitesseDeplacement = 1;
+				clock.restart();
+			}
+			
+		}
+		
 		
 	}
 
@@ -110,10 +122,14 @@ void Personnage::update(sf::Event event) { // gestion des variables bool a true 
 			direction = 1;
 			break;
 		case sf::Keyboard::Space:
+			regenerationFatigue = false;
 			tirer = true;
 			break;
 		case sf::Keyboard::R:
 			arme->recharger();
+			break;
+		case sf::Keyboard::P:
+			cac =1;
 			break;
 		}
 		break;
@@ -134,6 +150,10 @@ void Personnage::update(sf::Event event) { // gestion des variables bool a true 
 			break;
 		case sf::Keyboard::Space:
 			tirer = false;
+			regenerationFatigue = true;
+			break;
+		case sf::Keyboard::P:
+			cac = false;
 			break;
 		}
 		break;
@@ -165,6 +185,19 @@ void Personnage::testingCollision(Arme * arme, Ennemi * ennemi, std::vector<Enne
 				vie -= 1;
 				clockVie.restart();
 			}	
+		}
+		if (std::abs(ennemi->getSpriteEnnemi()->getPosition().x + float(ennemi->getDimensionL() / 2) - (spritePerso.getPosition().x + float(dimensionL / 2))) < float(ennemi->getDimensionL()) && std::abs(ennemi->getSpriteEnnemi()->getPosition().y + float(ennemi->getDimensionH() / 2) - (spritePerso.getPosition().y + float(dimensionH / 2))) < float(ennemi->getDimensionH())) {
+
+			if (cac == true && clockcorpacorp.getElapsedTime().asMilliseconds() > 300) {
+				std::cout << "flag" << std::endl;
+				ennemi->recevoirDegat(degatCac);
+				ennemi->toucheCac();
+				clockcorpacorp.restart();
+				if (ennemi->getVie() <= 0) {
+					delete ennemi;
+					tabEnnemi->erase(tabEnnemi->begin() + j);
+				}
+			}
 		}
 	}
 	for (sf::CircleShape * objetramasse : *tabObjRamassé) {
@@ -202,4 +235,28 @@ void Personnage::ramasseBoiteSecours(int pvboite) {
 		vie += pvboite;
 		if (vie > 100)vie = 100;
 	}
+}
+float Personnage::getFatigue() {
+	return fatigue;
+}
+void Personnage::setFatigue() {
+	if (fatigue > 0) {
+		fatigue -= 0.002;
+	}
+	
+}
+void Personnage::regenFatigue() {
+	if (regenerationFatigue == true) {
+		if (clockfatigue.getElapsedTime().asMilliseconds() > 200) {
+			if (fatigue < 1) {
+				fatigue += 0.02;
+				vitesseDeplacement = 400 * fatigue;
+				if (vitesseDeplacement > 400)vitesseDeplacement = 400;
+				clockfatigue.restart();
+			}
+			if (fatigue > 1) fatigue = 1;
+			
+		}
+	}
+	
 }

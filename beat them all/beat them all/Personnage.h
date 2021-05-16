@@ -1,34 +1,32 @@
 #pragma once
 #include <string.h>
 #include <SFML/graphics.hpp>
-#include <Windows.h>
 #include "Arme.h"
 #include "Ennemi.h"
-
-// en pixel par seconde || un define car prend moins de place qu'une constante.
-
+#define longueurEcran 500
+#define largeurEcran 1000
 #define nombreSprite 9
-#define largeurEcran (GetSystemMetrics(SM_CXSCREEN)/4*3) //3/4 de la largeur de l'écran
-#define longueurEcran (GetSystemMetrics(SM_CYSCREEN)/4*3)//3/4 de la longueur de l'écran
-
 class Personnage
 {
 protected:
 	int vie;
 	int dégat;
-	int vitesseDeplacement = 400;
+	float vitesseDeplacement = 400;
 	std::string nom;
-	int dimensionL = 133;
-	int dimensionH = 155;
+	int degatCac = 5;
+	int dimensionL = 66;
+	int dimensionH = 78;
 	int direction = 1;
+	float fatigue = 1;
 	enum direction { haut, gauche, bas, droite };
 	sf::Vector2i animation; // tableau à 2 dimension et que pour des int ( d'où le 2i) , x et y
-	bool updateFPS = false, moveUp = false, moveDown = false, moveRight = false, moveLeft = false,tirer = false;
+	bool updateFPS = false, moveUp = false, moveDown = false, moveRight = false, moveLeft = false,tirer = false,regenerationFatigue = true,cac=false;
 	sf::Texture texturePerso;
 	sf::Sprite spritePerso;
 	sf::Clock clockAnimation;
+	int laurent;
 	Arme * arme;
-	sf::Clock clock,clockVie;
+	sf::Clock clock,clockVie,clockfatigue,clockcorpacorp;
 public:
 	
 	Personnage(int vie, int dégat, std::string nom);
@@ -45,5 +43,8 @@ public:
 	int getPositionY();
 	void regenerationVie();
 	void ramasseBoiteSecours(int pvBoite);
+	float getFatigue();
+	void setFatigue();
+	void regenFatigue();
 };
 

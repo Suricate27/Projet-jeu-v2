@@ -3,14 +3,14 @@
 #include <iostream>
 #include <windows.h>
 #include <vector>
-
-#define longueurEcran (GetSystemMetrics(SM_CYSCREEN)/4*3)//3/4 de la longueur de l'écran
-
+#include "Header.h"
+#define longueurEcran 500
+#define largeurEcran 1000
 class Balles
 {
 protected:
 	int vitesse = 1000;
-	int diametre = 10;
+	int diametre = 5;
 	sf::CircleShape *cercle; //déclaration de la variable
 	sf::Clock clock;
 	sf::Time dureeVie = sf::Time::Zero;
