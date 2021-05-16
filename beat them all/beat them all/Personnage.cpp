@@ -67,7 +67,7 @@ void Personnage::deplacement(sf::Time duréeitération, sf::RenderWindow * window)
 		updateFPS = true;
 	}
 	if (tirer) {
-		arme->tirer(spritePerso.getPosition().x, spritePerso.getPosition().y, window, direction);
+		arme->tirer(spritePerso.getPosition().x, spritePerso.getPosition().y, window, direction,dimensionH,dimensionL);
 		
 	}
 

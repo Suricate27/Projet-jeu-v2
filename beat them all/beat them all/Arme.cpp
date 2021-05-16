@@ -8,11 +8,11 @@ Arme::Arme() {
 	std::cout << "Apparition arme" << std::endl;
 }
 
-void Arme::tirer(float PosXJoueur,float PosYJoueur, sf::RenderWindow * window,int direction) {
+void Arme::tirer(float PosXJoueur,float PosYJoueur, sf::RenderWindow * window,int direction, int taillePersoH,int taillePersoL) {
 	if (timerTir.getElapsedTime().asMilliseconds() > 200)
 	{
 		if (munitions > 0) {
-			Balles * balle = new Balles(PosXJoueur, PosYJoueur, direction, window);
+			Balles * balle = new Balles(PosXJoueur, PosYJoueur, direction, window, taillePersoH,taillePersoL);
 			tableauBalles.push_back(balle);
 			munitions--;
 			timerTir.restart();

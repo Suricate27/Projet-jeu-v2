@@ -3,8 +3,9 @@
 #include <iostream>
 #include <windows.h>
 #include <vector>
-#define taillePersonnage 192
+
 #define longueurEcran (GetSystemMetrics(SM_CYSCREEN)/4*3)//3/4 de la longueur de l'écran
+
 class Balles
 {
 protected:
@@ -14,7 +15,7 @@ protected:
 	sf::Clock clock;
 	sf::Time dureeVie = sf::Time::Zero;
 public:
-	Balles(float positionX, float positionY, int direction, sf::RenderWindow * window);
+	Balles(float positionX, float positionY, int direction, sf::RenderWindow * window,int tailleH, int tailleL);
 	void avancer(sf::Time duréeitération, sf::RenderWindow * window);
 	~Balles();
 	sf::Time getDureeVie();

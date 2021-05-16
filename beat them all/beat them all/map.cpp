@@ -1,7 +1,7 @@
 #include "Map.h"
 void Map::creationBoiteSecours(float positionX, float positionY) {
 	sf::CircleShape *cercle = new sf::CircleShape(50);
-
+}
 Map::Map() {
 	if (!textureBack.loadFromFile("Textures/Back.png")) // v�rif ouverture fichier
 	{

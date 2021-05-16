@@ -12,7 +12,7 @@ protected:
 	std::vector<sf::CircleShape*> TabBoiteSecours; //tableau de cercle
 	std::vector<sf::RectangleShape*> tabBarreVie;
 	int dimension_back_H = 764;
-	int dimension_back_L = 1000;
+	int dimension_back_L = 10000;
 	std::vector<sf::CircleShape*> objets; //tableau de cercle
 	sf::CircleShape cercle; //d�claration de la variable
 	sf::RectangleShape *BarreVie = new sf::RectangleShape;

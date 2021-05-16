@@ -13,22 +13,22 @@
 #include "Balles.h"
 #include "Ennemi.h"
 
-//HWND hwnd = GetDesktopWindow();
-//int zoom = GetDpiForWindow(hwnd);
+HWND hwnd = GetDesktopWindow();
+int zoom = GetDpiForWindow(hwnd);
 //int zoom = GetDpiForSystem();
 //#define ZoomEcran (GetScaleFactorForDevice()) 
 //#define largeurEcran GetSystemMetricsForDpi(((SM_CXSCREEN)/4*3),200) //3/4 de la largeur de l'écran
-#define longueurEcran ((GetSystemMetrics(SM_CYSCREEN)/4*3))//3/4 de la longueur de l'écran
-#define largeurEcran ((GetSystemMetrics(SM_CXSCREEN)/4*3))//3/4 de la longueur de l'écran
+#define longueurEcran ((GetSystemMetrics(SM_CYSCREEN)/4*3)*float(zoom)/100)//3/4 de la longueur de l'écran
+#define largeurEcran ((GetSystemMetrics(SM_CXSCREEN)/4*3)*float(zoom)/100)//3/4 de la longueur de l'écran
 
 //fonction
 void paramVue(sf::View *vue, sf::Sprite *spritePerso, sf::RenderWindow *window, Personnage *hero);
 
-#define taillePersonnage 192
-
 int main() {
+	std::cout <<"largeur ecran : " <<largeurEcran << std::endl;
+	std::cout <<"zoom : "<< zoom << std::endl;
 	//objet
-	std::cout << largeurEcran << std::endl;
+
 	Personnage hero = Personnage(100, 100, "test");
 	Map carte;
 	//fen�tre

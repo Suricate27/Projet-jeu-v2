@@ -33,13 +33,11 @@ void Ennemi::deplacement(int positionPersonnageX,int positionPersonnageY) {
 			spriteEnnemi.move(vitesse, 0);
 			if (nombreSprite == 0)nombreSprite = 3;
 			spriteEnnemi.setTextureRect(sf::IntRect((((12 - 3 * niveau)-nombreSprite)+3)*dimensionL, 2 * dimensionH, dimensionL, dimensionH));
-			
 			if (clockAnimation.getElapsedTime().asMilliseconds() >= (1 / (float)vitesse) * 400)
 			{
 				nombreSprite--;
 				clockAnimation.restart();
 			}
-			
 		}
 		else {
 			spriteEnnemi.move(-vitesse, 0);
@@ -49,12 +47,8 @@ void Ennemi::deplacement(int positionPersonnageX,int positionPersonnageY) {
 				nombreSprite--;
 				clockAnimation.restart();
 			}
-			
 		}
-		
 	}
-
-	
 }
 void Ennemi::setVie(int degat) {
 

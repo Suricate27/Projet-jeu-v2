@@ -1,9 +1,9 @@
 #include "Balles.h"
-Balles::Balles(float positionX, float positionY,int direction, sf::RenderWindow * window){
+Balles::Balles(float positionX, float positionY,int direction, sf::RenderWindow * window, int tailleH, int tailleL){
 	dureeVie = clock.restart();
  	cercle = new sf::CircleShape(diametre);
 	cercle->setFillColor(sf::Color::Yellow);
-	cercle->setPosition(positionX+taillePersonnage/2, positionY+ taillePersonnage/3);
+	cercle->setPosition(positionX+ tailleL /2, positionY+ tailleH /3);
 	this->vitesse = this->vitesse*direction;
 }
 
