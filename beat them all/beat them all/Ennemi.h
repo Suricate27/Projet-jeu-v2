@@ -1,9 +1,11 @@
 #pragma once
 #include <SFML/graphics.hpp>
 #include <iostream>
+#include <Windows.h> 
 
-#define largeurEcran 2400
-#define longueurEcran 1500
+#define largeurEcran (GetSystemMetrics(SM_CXSCREEN)/4*3) //3/4 de la largeur de l'écran
+#define longueurEcran (GetSystemMetrics(SM_CYSCREEN)/4*3)//3/4 de la longueur de l'écran
+
 class Ennemi
 {
 protected:

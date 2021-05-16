@@ -1,14 +1,15 @@
 #pragma once
 #include <string.h>
 #include <SFML/graphics.hpp>
+#include <Windows.h>
 #include "Arme.h"
 #include "Ennemi.h"
 
 // en pixel par seconde || un define car prend moins de place qu'une constante.
 
 #define nombreSprite 9
-#define largeurEcran 2400
-#define longueurEcran 1500
+#define largeurEcran (GetSystemMetrics(SM_CXSCREEN)/4*3) //3/4 de la largeur de l'écran
+#define longueurEcran (GetSystemMetrics(SM_CYSCREEN)/4*3)//3/4 de la longueur de l'écran
 
 class Personnage
 {
