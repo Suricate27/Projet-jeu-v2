@@ -64,11 +64,9 @@ int main() {
 		{
 			window.draw(*rect);
 		}
+		niveau1.affichageTextMunitions(hero.getArme()->getMunitions());
 		niveau1.afficherTexte(niveau1.getPositionBarreVie());
-		for (sf::Text * text : *niveau1.getTabTexte())
-		{
-			window.draw(*text);
-		}
+		niveau1.affichage(&window);
 		for (sf::CircleShape * objet : *niveau1.getTabBoiteSecours()) {
 			window.draw(*objet);
 		}

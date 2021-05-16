@@ -9,7 +9,9 @@ std::vector<sf::CircleShape*> * Map::getTabBoiteSecours() {
 	return &TabBoiteSecours;
 }
 void Map::affichageBarreVie(int centreVue,int vieJoueur) {
-
+	if (tabBarreVie.size() > 2) {
+		tabBarreVie.clear();
+	}
 	BarreVieBordure->setSize(sf::Vector2f(410, 60));
 	BarreVieBordure->setFillColor(sf::Color::Red);
 	BarreVieBordure->setPosition(centreVue-BarreVieBordure->getSize().x/2, 20);
@@ -23,20 +25,25 @@ std::vector<sf::RectangleShape*> * Map::getTabBarreVie(){
 	return &tabBarreVie;
 }
 void Map::afficherTexte(sf::Vector2f PositionBarreVie) {
-	if (!font.loadFromFile("arial.ttf")) {
+ 	if (!font.loadFromFile("arial.ttf")) {
 		std::cout << "Erreur chargement Police : arial.ttf introuvable" << std::endl;
-	}	
-	text.setString(std::string("Vie : "));
-	width = text.getLocalBounds().width;
-	text.setFont(font);
-	text.setCharacterSize(50);
-	text.setPosition(PositionBarreVie.x-width, PositionBarreVie.y);
-	tabText.push_back(&text);
+	}
+	text->setString(std::string("Vie : "));
+	width = text->getLocalBounds().width;
+	text->setFont(font);
+	text->setCharacterSize(50);
+	text->setPosition(PositionBarreVie.x-width, PositionBarreVie.y);
 }
-std::vector<sf::Text*> * Map::getTabTexte() {
-	return &tabText;
+void Map::affichageTextMunitions(int munitions) {
+	textmun->setString(std::string("Munitions : ") + std::to_string(munitions));
+	textmun->setFont(font);
+	textmun->setCharacterSize(50);
+	textmun->setPosition(50, 0);
 }
-
 sf::Vector2f Map::getPositionBarreVie() {
 	return BarreVieBordure->getPosition();
+}
+void Map::affichage(sf::RenderWindow * window) {
+	window->draw(*textmun);
+	window->draw(*text);
 }

@@ -20,6 +20,9 @@ void Arme::tirer(float PosXJoueur,float PosYJoueur, sf::RenderWindow * window,in
 	}
 	
 }
+int Arme::getMunitions() {
+	return munitions;
+}
 int Arme::getVitesseArme() {
 	return VitesseArme;
 }

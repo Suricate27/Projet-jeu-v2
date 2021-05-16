@@ -26,5 +26,6 @@ public:
 		return degat;
 	}
 	int getVitesseArme();
+	int getMunitions();
 };
 
