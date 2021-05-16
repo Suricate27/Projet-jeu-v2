@@ -30,7 +30,7 @@ int main() {
 	//objet
 	std::cout << largeurEcran << std::endl;
 	Personnage hero = Personnage(100, 100, "test");
-	//Map carte;
+	Map carte;
 	//fen�tre
 	sf::RenderWindow window(sf::VideoMode(largeurEcran, longueurEcran), "Beat Them All", sf::Style::Close); //cr�ation de la fen�tre (dimension, titre)
 	sf::View vue; // déclaration de la vue
@@ -62,6 +62,7 @@ int main() {
 		window.clear(); //nettoyage
 		paramVue(&vue, hero.getSpritePerso(), &window, &hero); // paramétrage de la vue
 		hero.deplacementBalle(Dureeiteration, &window);
+		window.draw(*carte.getSpriteBack());
 		window.draw(*hero.getSpritePerso()); // affichage de notre personnage
 		for (Ennemi * mechant : tabEnnemis) {
 			window.draw(*mechant->getSpriteEnnemi());

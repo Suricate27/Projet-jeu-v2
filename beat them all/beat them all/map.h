@@ -17,10 +17,13 @@ protected:
 	
 
 public:
-	Map(int dimension_back_H, int dimension_back_L);
+	Map();
 	void creationCercle(float positionX, float positionY);
 	void avancer();
 	std::vector<sf::CircleShape*> * getObjets();
 	void updateMap();
+	sf::Sprite * getSpriteBack();
+
+
 };
 

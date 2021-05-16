@@ -1,6 +1,6 @@
 #include "Map.h"
 
-Map::Map(int dimension_back_H, int dimension_back_L) {
+Map::Map() {
 	if (!textureBack.loadFromFile("Textures/Back.png")) // vérif ouverture fichier
 	{
 		std::cout << "Erreur chargement texture back" << std::endl;
@@ -21,4 +21,7 @@ void Map::creationCercle(float positionX, float positionY) { //crée les cercles
 }
 void Map::updateMap() {
 
+}
+sf::Sprite *Map::getSpriteBack() {
+	return  &spriteBack;
 }
