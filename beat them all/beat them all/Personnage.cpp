@@ -161,7 +161,10 @@ void Personnage::testingCollision(Arme * arme, Ennemi * ennemi, std::vector<Enne
 		//gestion collision entre ennemi et le perso
 		if (std::abs(ennemi->getSpriteEnnemi()->getPosition().x + float(ennemi->getDimensionL() / 2) - (spritePerso.getPosition().x + float(dimensionL / 2))) < float(0.8*ennemi->getDimensionL()) && std::abs(ennemi->getSpriteEnnemi()->getPosition().y + float(ennemi->getDimensionH() / 2) - (spritePerso.getPosition().y+ float(dimensionH / 2))) < float(0.8*ennemi->getDimensionH())) {
 			
-			
+			if (clockVie.getElapsedTime().asMilliseconds() > 100 && vie > 0) {
+				vie -= 1;
+				clockVie.restart();
+			}	
 		}
 	}
 	for (sf::CircleShape * objetramasse : *tabObjRamassé) {
@@ -197,5 +200,6 @@ int Personnage::getVie() {
 void Personnage::ramasseBoiteSecours(int pvboite) {
 	if (vie < 100) {
 		vie += pvboite;
+		if (vie > 100)vie = 100;
 	}
 }

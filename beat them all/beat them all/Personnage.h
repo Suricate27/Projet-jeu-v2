@@ -27,7 +27,7 @@ protected:
 	sf::Sprite spritePerso;
 	sf::Clock clockAnimation;
 	Arme * arme;
-	sf::Clock clock;
+	sf::Clock clock,clockVie;
 public:
 	
 	Personnage(int vie, int dégat, std::string nom);
