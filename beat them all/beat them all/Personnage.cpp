@@ -15,8 +15,8 @@ Personnage::Personnage(int vie, int dégat, std::string nom){
 	}
 	texturePerso.setSmooth(true);
 	spritePerso.setTexture(texturePerso);
-	spritePerso.setTextureRect(sf::IntRect(1 * dimension, 3 * dimension, dimension, dimension)); // Pour que le premier affichage du personnage soit vers la droite
-	spritePerso.setPosition(0, longueurEcran - dimension); //démarre en bas de la fenêtre 
+	spritePerso.setTextureRect(sf::IntRect(dimensionL, 3 * dimensionH, dimensionL, dimensionH)); // Pour que le premier affichage du personnage soit vers la droite
+	spritePerso.setPosition(0, longueurEcran - dimensionH); //démarre en bas de la fenêtre 
 }
 
 void Personnage::deplacement(sf::Time duréeitération, sf::RenderWindow * window) { // gère les naimation de déplacement et les déplacement 
@@ -27,8 +27,8 @@ void Personnage::deplacement(sf::Time duréeitération, sf::RenderWindow * window)
 		clockAnimation.restart();
 	}
 	if (updateFPS) { // Si l'utilisateur à une touche enfoncée on vas jouer les animation en boucle
-		if (animation.x * dimension >= nombreSprite * dimension)animation.x = 0; // il n'y en a que 9
-		spritePerso.setTextureRect(sf::IntRect(animation.x * dimension, animation.y * dimension, dimension, dimension)); //x et y c'est parce qu'on va utiliser les sprites comme un tableau
+		if (animation.x * dimensionL >= nombreSprite * dimensionL)animation.x = 0; // il n'y en a que 9
+		spritePerso.setTextureRect(sf::IntRect(animation.x * dimensionL, animation.y * dimensionH, dimensionL, dimensionH)); //x et y c'est parce qu'on va utiliser les sprites comme un tableau
 		updateFPS = false; //repasse à faux à chaque boucle comme ça il n'est vrai que si une touche est enfoncée.
 	}
 	// permet de ralentir le nombre d'affichage d'animation 1 images toute les 100ms
@@ -45,7 +45,7 @@ void Personnage::deplacement(sf::Time duréeitération, sf::RenderWindow * window)
 		updateFPS = true;
 	}
 	else if (moveDown) {
-		if (spritePerso.getPosition().y <= longueurEcran - dimension) {//empecher la sortie de fenêtre
+		if (spritePerso.getPosition().y <= longueurEcran - dimensionH) {//empecher la sortie de fenêtre
 			spritePerso.move(0,  vitesseDeplacement*duréeitération.asSeconds());
 		}
 		animation.y = bas;
@@ -60,7 +60,7 @@ void Personnage::deplacement(sf::Time duréeitération, sf::RenderWindow * window)
 		updateFPS = true;
 	}
 	else if (moveRight) {
-		if (spritePerso.getPosition().x <= 10000 - dimension) {
+		if (spritePerso.getPosition().x <= 10000 - dimensionL) {
 			spritePerso.move( vitesseDeplacement*duréeitération.asSeconds(), 0);
 		}
 		animation.y = droite;
@@ -84,8 +84,11 @@ void Personnage::deplacementBalle(sf::Time duréeitération, sf::RenderWindow * wi
 		}	
 	}
 }
-int Personnage::getDimension() {
-	return dimension;
+int Personnage::getDimensionH() {
+	return dimensionH;
+}
+int Personnage::getDimensionL() {
+	return dimensionL;
 }
 void Personnage::update(sf::Event event) { // gestion des variables bool a true si une touche est enfoncée
 	switch (event.type) {
@@ -138,14 +141,14 @@ void Personnage::update(sf::Event event) { // gestion des variables bool a true 
 
 }// gestion des variables bool a true si une touche est enfoncée
 
-void Personnage::testingCollision(Arme * arme, Ennemi * ennemi, std::vector<Ennemi*>* tabEnnemi) {
-	int i = -1,j=-1;
+void Personnage::testingCollision(Arme * arme, Ennemi * ennemi, std::vector<Ennemi*>* tabEnnemi, std::vector<sf::CircleShape*>*tabObjRamassé) {
+	int i = -1,j=-1,k=-1;
 	for (Ennemi * ennemi : *tabEnnemi) {
 		j++;
+		//gestion collision entre balle et enemi
 		for (Balles * cercle :  *arme->getTableauBalles()) {
 			i++;
-			if (std::abs(ennemi->getSpriteEnnemi()->getPosition().x+ float( dimension / 2) - (cercle->getPositionX()+ float(dimension / 2))) < float(dimension) && std::abs(ennemi->getSpriteEnnemi()->getPosition().y + float(dimension / 2) - (cercle->getPositionY() + float(dimension / 2))) < float(dimension)) {
-				std::cout << "Touche gros fdp" << std::endl;
+			if (std::abs(ennemi->getSpriteEnnemi()->getPosition().x + float(ennemi->getDimensionL() / 2) - (cercle->getPositionX()+ float(cercle->getDiametre() / 2))) < float(0.8*ennemi->getDimensionL()) && std::abs(ennemi->getSpriteEnnemi()->getPosition().y + float(ennemi->getDimensionH() / 2) - (cercle->getPositionY() + float(cercle->getDiametre()/ 2))) < float(0.8*ennemi->getDimensionH())) {
 				ennemi->recevoirDegat(arme->getArmeDegat());
 				if (ennemi->getVie() <= 0) {
 					delete ennemi;
@@ -155,8 +158,23 @@ void Personnage::testingCollision(Arme * arme, Ennemi * ennemi, std::vector<Enne
 				arme->getTableauBalles()->erase(arme->getTableauBalles()->begin() + i);
 			}
 		}
+		//gestion collision entre ennemi et le perso
+		if (std::abs(ennemi->getSpriteEnnemi()->getPosition().x + float(ennemi->getDimensionL() / 2) - (spritePerso.getPosition().x + float(dimensionL / 2))) < float(0.8*ennemi->getDimensionL()) && std::abs(ennemi->getSpriteEnnemi()->getPosition().y + float(ennemi->getDimensionH() / 2) - (spritePerso.getPosition().y+ float(dimensionH / 2))) < float(0.8*ennemi->getDimensionH())) {
+			
+			if (clockVie.getElapsedTime().asMilliseconds() > 100 && vie > 0) {
+				vie -= 1;
+				clockVie.restart();
+			}	
+		}
 	}
-
+	for (sf::CircleShape * objetramasse : *tabObjRamassé) {
+		k++;
+		if (std::abs(objetramasse->getPosition().x + float(objetramasse->getRadius() / 2) - (spritePerso.getPosition().x + float(dimensionL / 2))) < float(dimensionL*0.8) && std::abs(objetramasse->getPosition().y + float(objetramasse->getRadius() / 2) - (spritePerso.getPosition().y + float(dimensionH / 2))) < float(0.8*dimensionH)) {
+			ramasseBoiteSecours(10);
+			delete objetramasse;
+			tabObjRamassé->erase(tabObjRamassé->begin() + k);
+		}
+	}
 }
 sf::Sprite * Personnage::getSpritePerso() {
 	return &spritePerso;
@@ -169,4 +187,19 @@ int Personnage::getPositionX() {
 }
 int Personnage::getPositionY() {
 	return spritePerso.getPosition().y;
+}
+void Personnage::regenerationVie() {
+	if (clock.getElapsedTime().asMilliseconds() > 500 && vie < 100) {
+		vie += 1;
+		clock.restart();
+	}
+}
+int Personnage::getVie() {
+	return vie;
+}
+void Personnage::ramasseBoiteSecours(int pvboite) {
+	if (vie < 100) {
+		vie += pvboite;
+		if (vie > 100)vie = 100;
+	}
 }

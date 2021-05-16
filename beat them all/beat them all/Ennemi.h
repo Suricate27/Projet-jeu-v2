@@ -28,5 +28,7 @@ public:
 	void deplacement(int positionPersonnageX, int positionPersonnageY);
 	void setVie(int degat);
 	sf::Sprite * getSpriteEnnemi();
+	int getDimensionH();
+	int getDimensionL();
 };
 

@@ -7,6 +7,7 @@ class Balles
 {
 protected:
 	int vitesse = 1000;
+	int diametre = 10;
 	sf::CircleShape *cercle; //déclaration de la variable
 	sf::Clock clock;
 	sf::Time dureeVie = sf::Time::Zero;
@@ -17,6 +18,6 @@ public:
 	sf::Time getDureeVie();
 	float getPositionX();
 	float getPositionY();
-	void setDirection(short int direction);
+	int getDiametre();
 };
 

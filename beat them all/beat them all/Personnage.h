@@ -17,7 +17,8 @@ protected:
 	int dégat;
 	int vitesseDeplacement = 400;
 	std::string nom;
-	int dimension = 192;
+	int dimensionL = 133;
+	int dimensionH = 155;
 	int direction = 1;
 	enum direction { haut, gauche, bas, droite };
 	sf::Vector2i animation; // tableau à 2 dimension et que pour des int ( d'où le 2i) , x et y
@@ -26,20 +27,22 @@ protected:
 	sf::Sprite spritePerso;
 	sf::Clock clockAnimation;
 	Arme * arme;
+	sf::Clock clock,clockVie;
 public:
 	
 	Personnage(int vie, int dégat, std::string nom);
-	int getDimension();
+	int getDimensionH();
+	int getDimensionL();
+	int getVie();
 	void deplacement(sf::Time  duréeitération, sf::RenderWindow * window);
 	void update(sf::Event event);
-	void testingCollision(Arme * arme, Ennemi * ennemi, std::vector<Ennemi*> * tabEnnemi);
+	void testingCollision(Arme * arme, Ennemi * ennemi, std::vector<Ennemi*> * tabEnnemi,std::vector<sf::CircleShape*>*tabObjRamassé);
 	void deplacementBalle(sf::Time duréeitération, sf::RenderWindow * window);
 	Arme  * getArme();
 	sf::Sprite * getSpritePerso();
 	int getPositionX();
 	int getPositionY();
-
-	
-	
+	void regenerationVie();
+	void ramasseBoiteSecours(int pvBoite);
 };
 

@@ -3,7 +3,7 @@ Ennemi::Ennemi(int niveau) {
 	vie = 100*niveau;
 	degat = 5*niveau;
 	this->niveau = niveau;
-	vitesse = 2*((niveau+2)/3); //vitesse par niveau (1|1.33|1.66|2)
+	vitesse = (niveau+2)/3; //vitesse par niveau (1|1.33|1.66|2)
 	animation = sf::Vector2i((13 - 3 * niveau), haut);
 	// chargement de la texture
 	if (!textureEnnemi.loadFromFile("Textures/SpriteEnnemi.png")) // v�rif ouverture fichier
@@ -34,7 +34,7 @@ void Ennemi::deplacement(int positionPersonnageX,int positionPersonnageY) {
 			if (nombreSprite == 0)nombreSprite = 3;
 			spriteEnnemi.setTextureRect(sf::IntRect((((12 - 3 * niveau)-nombreSprite)+3)*dimensionL, 2 * dimensionH, dimensionL, dimensionH));
 			
-			if (clockAnimation.getElapsedTime().asMilliseconds() >= (1 / (float)vitesse) * 500)
+			if (clockAnimation.getElapsedTime().asMilliseconds() >= (1 / (float)vitesse) * 400)
 			{
 				nombreSprite--;
 				clockAnimation.restart();
@@ -45,7 +45,7 @@ void Ennemi::deplacement(int positionPersonnageX,int positionPersonnageY) {
 			spriteEnnemi.move(-vitesse, 0);
 			if (nombreSprite == 0)nombreSprite = 3;
 			spriteEnnemi.setTextureRect(sf::IntRect((((12 - 3 * niveau) - nombreSprite)+3)*dimensionL, dimensionH, dimensionL, dimensionH));
-			if (clockAnimation.getElapsedTime().asMilliseconds() >= (1 / (float)vitesse) * 500) {
+			if (clockAnimation.getElapsedTime().asMilliseconds() >= (1 / (float)vitesse) * 400) {
 				nombreSprite--;
 				clockAnimation.restart();
 			}
@@ -61,4 +61,10 @@ void Ennemi::setVie(int degat) {
 }
 sf::Sprite * Ennemi::getSpriteEnnemi() {
 	return &spriteEnnemi;
+}
+int Ennemi::getDimensionH() {
+	return dimensionH;
+}
+int Ennemi::getDimensionL() {
+	return dimensionL;
 }
