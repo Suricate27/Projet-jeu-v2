@@ -149,7 +149,6 @@ void Personnage::testingCollision(Arme * arme, Ennemi * ennemi, std::vector<Enne
 		for (Balles * cercle :  *arme->getTableauBalles()) {
 			i++;
 			if (std::abs(ennemi->getSpriteEnnemi()->getPosition().x + float(ennemi->getDimensionL() / 2) - (cercle->getPositionX()+ float(cercle->getDiametre() / 2))) < float(0.8*ennemi->getDimensionL()) && std::abs(ennemi->getSpriteEnnemi()->getPosition().y + float(ennemi->getDimensionH() / 2) - (cercle->getPositionY() + float(cercle->getDiametre()/ 2))) < float(0.8*ennemi->getDimensionH())) {
-				std::cout << "Touche gros" << std::endl;
 				ennemi->recevoirDegat(arme->getArmeDegat());
 				if (ennemi->getVie() <= 0) {
 					delete ennemi;

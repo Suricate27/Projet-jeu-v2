@@ -56,9 +56,15 @@ int main() {
 		hero.testingCollision(hero.getArme(), mechant, &tabEnnemis,niveau1.getTabBoiteSecours());
 		mechant->deplacement(hero.getPositionX(), hero.getPositionY());
 		hero.regenerationVie();
+		sf::RectangleShape rectangle;
+		rectangle.setSize(sf::Vector2f(100, 50));
+		rectangle.setFillColor(sf::Color::Red);
+		rectangle.setPosition(0, 0);
+		////////////////////AFFICHAGE///////////////////////////
 		window.clear();//nettoyage
 		paramVue(&vue, hero.getSpritePerso(), &window, &hero);// paramétrage de la vue
 		window.draw(*hero.getSpritePerso()); // affichage de notre personnage
+		window.draw(rectangle);
 		window.draw(texte);
 		for (sf::CircleShape * objet : *niveau1.getTabBoiteSecours()) {
 			window.draw(*objet);

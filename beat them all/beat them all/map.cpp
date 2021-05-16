@@ -8,8 +8,3 @@ void Map::creationBoiteSecours(float positionX, float positionY) {
 std::vector<sf::CircleShape*> * Map::getTabBoiteSecours() {
 	return &TabBoiteSecours;
 }
-//sf::IntRect * Map::viePersonnage() {
-//	sf::
-//	sf::IntRect lifeBar = sf::IntRect(100, 100, 100, 25);
-//	lifebar.setfill
-//}
