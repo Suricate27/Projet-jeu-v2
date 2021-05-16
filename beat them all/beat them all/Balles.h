@@ -8,7 +8,7 @@
 class Balles
 {
 protected:
-	int vitesse = 400;
+	int vitesse = 500;
 	sf::CircleShape *cercle; //déclaration de la variable
 	sf::Clock clock;
 	sf::Time dureeVie = sf::Time::Zero;

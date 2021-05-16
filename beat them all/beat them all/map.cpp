@@ -1,5 +1,15 @@
 #include "Map.h"
 
+Map::Map(int dimension_back_H, int dimension_back_L) {
+	if (!textureBack.loadFromFile("Textures/Back.png")) // vérif ouverture fichier
+	{
+		std::cout << "Erreur chargement texture back" << std::endl;
+	}
+	textureBack.setSmooth(true);
+	spriteBack.setTexture(textureBack);
+	spriteBack.setTextureRect(sf::IntRect(dimension_back_H, dimension_back_L, dimension_back_L, dimension_back_H)); 
+	spriteBack.setPosition(0, 0); 
+}
 std::vector<sf::CircleShape*> * Map::getObjets() {
 	return &objets;
 }
