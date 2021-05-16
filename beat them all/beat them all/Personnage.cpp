@@ -176,7 +176,7 @@ void Personnage::update(sf::Event event) { // gestion des variables bool a true 
 
 }// gestion des variables bool a true si une touche est enfoncée
 
-void Personnage::testingCollision(Arme * arme, Ennemi * ennemi, std::vector<Ennemi*>* tabEnnemi, std::vector<sf::CircleShape*>*tabObjRamassé) {
+void Personnage::testingCollision(Arme * arme, Ennemi * ennemi, std::vector<Ennemi*>* tabEnnemi, std::vector<BoiteSecours*>*tabObjRamassé) {
 	int i = -1,j=-1,k=-1;
 	for (Ennemi * ennemi : *tabEnnemi) {
 		j++;
@@ -216,9 +216,9 @@ void Personnage::testingCollision(Arme * arme, Ennemi * ennemi, std::vector<Enne
 		}
 	}
 	//collision entre perso soins
-	for (sf::CircleShape * objetramasse : *tabObjRamassé) {
+	for (BoiteSecours * objetramasse : *tabObjRamassé) {
 		k++;
-		if (std::abs(objetramasse->getPosition().x + float(objetramasse->getRadius() / 2) - (spritePerso.getPosition().x + float(dimensionL / 2))) < float(dimensionL*0.8) && std::abs(objetramasse->getPosition().y + float(objetramasse->getRadius() / 2) - (spritePerso.getPosition().y + float(dimensionH / 2))) < float(0.8*dimensionH)) {
+		if (std::abs(objetramasse->getsprite()->getPosition().x + float(objetramasse->getDimension() / 2) - (spritePerso.getPosition().x + float(dimensionL / 2))) < float(dimensionL*0.8) && std::abs(objetramasse->getsprite()->getPosition().y + float(objetramasse->getDimension() / 2) - (spritePerso.getPosition().y + float(dimensionH / 2))) < float(0.8*dimensionH)) {
 			ramasseBoiteSecours(10);
 			delete objetramasse;
 			tabObjRamassé->erase(tabObjRamassé->begin() + k);

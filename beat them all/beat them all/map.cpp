@@ -1,9 +1,7 @@
 #include "Map.h"
 void Map::creationBoiteSecours(float positionX, float positionY) {
-	sf::CircleShape *cercle = new sf::CircleShape(50);
-	cercle->setFillColor(sf::Color::Green);
-	cercle->setPosition(positionX, positionY);
-	TabBoiteSecours.push_back(cercle);
+	BoiteSecours *boite = new BoiteSecours(positionX, positionY);
+	TabBoiteSecours.push_back(boite);
 }
 Map::Map() {
 	if (!textureBack.loadFromFile("Textures/Back.png")) // v�rif ouverture fichier
@@ -21,7 +19,6 @@ Map::Map() {
 		tabFond.push_back(spriteBack);
 
 	}
-
 	
 }
 std::vector<sf::CircleShape*> * Map::getObjets() {
@@ -30,7 +27,7 @@ std::vector<sf::CircleShape*> * Map::getObjets() {
 void Map::creationCercle(float positionX, float positionY) { //cr�e les cercles
 	sf::CircleShape *cercle = new sf::CircleShape(100);
 }
-std::vector<sf::CircleShape*> * Map::getTabBoiteSecours() {
+std::vector<BoiteSecours*> * Map::getTabBoiteSecours() {
 	return &TabBoiteSecours;
 }
 sf::Sprite *Map::getSpriteBack() {
@@ -66,6 +63,16 @@ void Map::afficherTexte(sf::Vector2f PositionBarreVie) {
 	text->setCharacterSize(largeurEcran/50);
 	text->setPosition(PositionBarreVie.x-width, PositionBarreVie.y);
 }
+void Map::affichageMenu() {
+	//if (!font.loadFromFile("arial.ttf")) {
+	//	std::cout << "Erreur chargement Police : arial.ttf introuvable" << std::endl;
+	//}
+	//textmenu->setString("Menu");
+	//textmenu->setFont(font);
+	//textmenu->setCharacterSize(largeurEcran / 50);
+	//textmenu->setPosition((largeurEcran/2)- textmenu->getLocalBounds().width, 0);
+	
+}
 void Map::affichageTextMunitions(int munitions, sf::Vector2f PositionBarreVie) {
 	textmun->setString(std::string("Munitions : ") + std::to_string(munitions));
 	textmun->setFont(font);
@@ -79,6 +86,7 @@ sf::Vector2f Map::getPositionBarreVie() {
 void Map::affichage(sf::RenderWindow * window) {
 	window->draw(*textmun);
 	window->draw(*text);
+	window->draw(*textmenu);
 }
 std::vector <sf::Sprite*>*Map::getTabFond() {
 	return &tabFond;

@@ -4,6 +4,7 @@
 #include "Arme.h"
 #include "Ennemi.h"
 #include "Crate.h"
+#include "BoiteSecours.h"
 #define longueurEcran 500
 #define largeurEcran 1000
 #define nombreSprite 9
@@ -36,7 +37,7 @@ public:
 	int getVie();
 	void deplacement(sf::Time  duréeitération, sf::RenderWindow * window, std::vector<Crate*>*tabCrate);
 	void update(sf::Event event);
-	void testingCollision(Arme * arme, Ennemi * ennemi, std::vector<Ennemi*> * tabEnnemi,std::vector<sf::CircleShape*>*tabObjRamassé);
+	void testingCollision(Arme * arme, Ennemi * ennemi, std::vector<Ennemi*> * tabEnnemi,std::vector<BoiteSecours*>*tabObjRamassé);
 	void deplacementBalle(sf::Time duréeitération, sf::RenderWindow * window);
 	Arme  * getArme();
 	sf::Sprite * getSpritePerso();
