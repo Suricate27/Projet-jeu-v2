@@ -3,6 +3,7 @@
 #include <SFML/graphics.hpp>
 #include "Arme.h"
 #include "Ennemi.h"
+#include "Crate.h"
 #define longueurEcran 500
 #define largeurEcran 1000
 #define nombreSprite 9
@@ -33,7 +34,7 @@ public:
 	int getDimensionH();
 	int getDimensionL();
 	int getVie();
-	void deplacement(sf::Time  duréeitération, sf::RenderWindow * window);
+	void deplacement(sf::Time  duréeitération, sf::RenderWindow * window, std::vector<Crate*>*tabCrate);
 	void update(sf::Event event);
 	void testingCollision(Arme * arme, Ennemi * ennemi, std::vector<Ennemi*> * tabEnnemi,std::vector<sf::CircleShape*>*tabObjRamassé);
 	void deplacementBalle(sf::Time duréeitération, sf::RenderWindow * window);

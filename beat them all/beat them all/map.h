@@ -2,6 +2,7 @@
 #include <iostream>
 #include <SFML/graphics.hpp>
 #include "Arme.h"
+#include "Crate.h"
 #define longueurEcran 500
 #define largeurEcran 1000
 
@@ -12,9 +13,12 @@ protected:
 	
 	std::vector<sf::CircleShape*> TabBoiteSecours; //tableau de cercle
 	std::vector<sf::RectangleShape*> tabBarreVie;
-	int dimension_back_H = 764;
-	int dimension_back_L = 10000;
+	std::vector<sf::Sprite*>tabFond;
+	std::vector <Crate*> tabCrate;
+	int dimension_back_H = 500;
+	int dimension_back_L = 744;
 	std::vector<sf::CircleShape*> objets; //tableau de cercle
+	
 	sf::CircleShape cercle; //d�claration de la variable
 	sf::RectangleShape *BarreVie = new sf::RectangleShape;
 	sf::RectangleShape *BarreVieBordure = new sf::RectangleShape;
@@ -39,8 +43,10 @@ public:
 	sf::Vector2f getPositionBarreVie();
 	void affichageTextMunitions(int munitions, sf::Vector2f PositionBarreVie);
 	void affichage(sf::RenderWindow * window);
+	void CreationBoite(int positionX,int positionY);
 	sf::Sprite * getSpriteBack();
-
+	std::vector <sf::Sprite*>*getTabFond();
+	std::vector <Crate*>*getTabCrate();
 
 	std::vector<sf::CircleShape*> * getObjets();
 };

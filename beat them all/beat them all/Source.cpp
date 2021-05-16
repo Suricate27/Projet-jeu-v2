@@ -13,6 +13,7 @@
 #include "Balles.h"
 #include "Ennemi.h"
 #include "Header.h"
+#include "Crate.h"
 #define longueurEcran 500
 #define largeurEcran 1000
 //fonction
@@ -23,7 +24,6 @@ int main() {
 	//objet
 
 	Personnage hero = Personnage(100, 100, "test");
-	Map carte;
 	//fen�tre
 	sf::RenderWindow window(sf::VideoMode(largeurEcran, longueurEcran), "Beat Them All", sf::Style::Close); //cr�ation de la fen�tre (dimension, titre)
 	sf::View vue; // déclaration de la vue
@@ -36,6 +36,8 @@ int main() {
 	tabEnnemis.push_back(mechant);
 
 	niveau1.creationBoiteSecours(1000, 400);
+	niveau1.CreationBoite(70, 70);
+	niveau1.CreationBoite(500, 400);
 	//début de la boucle fenetre ouverte
 	while (window.isOpen()) {
 		Dureeiteration = clock.restart();
@@ -52,7 +54,7 @@ int main() {
 				break;
 			}//gestion clavier 	
 		}
-		hero.deplacement(Dureeiteration,&window); // gestion animation + déplacement
+		hero.deplacement(Dureeiteration,&window,niveau1.getTabCrate()); // gestion animation + déplacement
 		hero.testingCollision(hero.getArme(), mechant, &tabEnnemis,niveau1.getTabBoiteSecours());
 		mechant->deplacement(hero.getPositionX(), hero.getPositionY());
 		hero.regenerationVie();
@@ -60,7 +62,12 @@ int main() {
 		////////////////////AFFICHAGE///////////////////////////
 		window.clear();//nettoyage
 		paramVue(&vue, hero.getSpritePerso(), &window, &hero);// paramétrage de la vue
-		//window.draw(*carte.getSpriteBack());//fond d'ecran
+		for (sf::Sprite * sprite : *niveau1.getTabFond()) {
+			window.draw(*sprite);
+		}
+		for (Crate * crate : *niveau1.getTabCrate()) {
+			window.draw(*crate->getSpriteCrate());
+		}
 		window.draw(*hero.getSpritePerso()); // affichage de notre personnage
 		
 		niveau1.affichageBarreVie(vue.getCenter().x,hero.getVie(),hero.getFatigue());

@@ -19,7 +19,7 @@ Personnage::Personnage(int vie, int dégat, std::string nom){
 	spritePerso.setPosition(0, longueurEcran - dimensionH); //démarre en bas de la fenêtre 
 }
 
-void Personnage::deplacement(sf::Time duréeitération, sf::RenderWindow * window) { // gère les naimation de déplacement et les déplacement 
+void Personnage::deplacement(sf::Time duréeitération, sf::RenderWindow * window, std::vector<Crate*>*tabCrate) { // gère les animations de déplacement et les déplacement 
 	
 	if (clockAnimation.getElapsedTime().asMilliseconds() >= (1/(float)vitesseDeplacement)*50000) // pour que la vitesse des animations soit liée à la vitesse du personnage j'ai définis 0.2 (1/5) parce que je trouvais ça ok
 	{
@@ -37,7 +37,22 @@ void Personnage::deplacement(sf::Time duréeitération, sf::RenderWindow * window)
 		// Le problème de calculer la vitesse avec des pixels c'est que si la machine ram bah le personnage est lent et ça doit être independant.
 		
 		// Donc on va calculer le déplacement avec temps passé avec la touche enfoncée.
-	
+	for (Crate * crate : *tabCrate) {
+		if (std::abs(crate->getSpriteCrate()->getPosition().x + float(crate->getDimension() / 2) - (spritePerso.getPosition().x + float(dimensionL / 2))) < float(0.8*dimensionL) && std::abs(crate->getSpriteCrate()->getPosition().y + float(crate->getDimension() / 2) - (spritePerso.getPosition().y + float(dimensionH / 2))) < float(0.8*dimensionH)) {
+			if (crate->getSpriteCrate()->getPosition().x > spritePerso.getPosition().x) {
+				moveRight = 0;
+			}
+			if (spritePerso.getPosition().x > crate->getSpriteCrate()->getPosition().x) {
+				moveLeft = 0;
+			}
+			if (spritePerso.getPosition().y > crate->getSpriteCrate()->getPosition().x) {
+				moveUp = 0;
+			}
+			if (spritePerso.getPosition().y < crate->getSpriteCrate()->getPosition().x) {
+				moveDown = 0;
+			}
+		}
+	}
 	if (moveUp) {
 		if (spritePerso.getPosition().y >= 0.66 * longueurEcran-dimensionH) { //empecher de monter plus haut que 2/3 de l'écran
 			spritePerso.move(0, -vitesseDeplacement*duréeitération.asSeconds());
@@ -182,7 +197,7 @@ void Personnage::testingCollision(Arme * arme, Ennemi * ennemi, std::vector<Enne
 		if (std::abs(ennemi->getSpriteEnnemi()->getPosition().x + float(ennemi->getDimensionL() / 2) - (spritePerso.getPosition().x + float(dimensionL / 2))) < float(0.8*ennemi->getDimensionL()) && std::abs(ennemi->getSpriteEnnemi()->getPosition().y + float(ennemi->getDimensionH() / 2) - (spritePerso.getPosition().y+ float(dimensionH / 2))) < float(0.8*ennemi->getDimensionH())) {
 			
 			if (clockVie.getElapsedTime().asMilliseconds() > 100 && vie > 0) {
-				vie -= 1;
+				vie -= ennemi->getDegat();
 				clockVie.restart();
 			}	
 		}
@@ -200,6 +215,7 @@ void Personnage::testingCollision(Arme * arme, Ennemi * ennemi, std::vector<Enne
 			}
 		}
 	}
+	//collision entre perso soins
 	for (sf::CircleShape * objetramasse : *tabObjRamassé) {
 		k++;
 		if (std::abs(objetramasse->getPosition().x + float(objetramasse->getRadius() / 2) - (spritePerso.getPosition().x + float(dimensionL / 2))) < float(dimensionL*0.8) && std::abs(objetramasse->getPosition().y + float(objetramasse->getRadius() / 2) - (spritePerso.getPosition().y + float(dimensionH / 2))) < float(0.8*dimensionH)) {

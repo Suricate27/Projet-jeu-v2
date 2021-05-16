@@ -10,10 +10,19 @@ Map::Map() {
 	{
 		std::cout << "Erreur chargement texture back" << std::endl;
 	}
+
 	textureBack.setSmooth(true);
-	spriteBack.setTexture(textureBack);
-	spriteBack.setTextureRect(sf::IntRect(dimension_back_H, dimension_back_L, dimension_back_L, dimension_back_H)); 
-	spriteBack.setPosition(0, 0); 
+	for (int i = 0; i < 21; i++)
+	{
+		sf::Sprite *spriteBack = new sf::Sprite;
+		spriteBack->setTexture(textureBack);
+		spriteBack->setTextureRect(sf::IntRect(0, 0, dimension_back_L, dimension_back_H));
+		spriteBack->setPosition(i*dimension_back_L, 0);
+		tabFond.push_back(spriteBack);
+
+	}
+
+	
 }
 std::vector<sf::CircleShape*> * Map::getObjets() {
 	return &objets;
@@ -52,7 +61,7 @@ void Map::afficherTexte(sf::Vector2f PositionBarreVie) {
 		std::cout << "Erreur chargement Police : arial.ttf introuvable" << std::endl;
 	}
 	text->setString(std::string("Vie : "));
-	width = text->getLocalBounds().width;
+ 	width = text->getLocalBounds().width;
 	text->setFont(font);
 	text->setCharacterSize(largeurEcran/50);
 	text->setPosition(PositionBarreVie.x-width, PositionBarreVie.y);
@@ -70,4 +79,15 @@ sf::Vector2f Map::getPositionBarreVie() {
 void Map::affichage(sf::RenderWindow * window) {
 	window->draw(*textmun);
 	window->draw(*text);
+}
+std::vector <sf::Sprite*>*Map::getTabFond() {
+	return &tabFond;
+}
+void Map::CreationBoite(int positionX, int positionY) {
+	Crate *box = new Crate(positionX,positionY);
+	tabCrate.push_back(box);
+}
+
+std::vector <Crate*>*Map::getTabCrate() {
+	return &tabCrate;
 }
