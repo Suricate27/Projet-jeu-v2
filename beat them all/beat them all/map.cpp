@@ -22,3 +22,21 @@ void Map::affichageBarreVie(int centreVue,int vieJoueur) {
 std::vector<sf::RectangleShape*> * Map::getTabBarreVie(){
 	return &tabBarreVie;
 }
+void Map::afficherTexte(sf::Vector2f PositionBarreVie) {
+	if (!font.loadFromFile("arial.ttf")) {
+		std::cout << "Erreur chargement Police : arial.ttf introuvable" << std::endl;
+	}	
+	text.setString(std::string("Vie : "));
+	width = text.getLocalBounds().width;
+	text.setFont(font);
+	text.setCharacterSize(50);
+	text.setPosition(PositionBarreVie.x-width, PositionBarreVie.y);
+	tabText.push_back(&text);
+}
+std::vector<sf::Text*> * Map::getTabTexte() {
+	return &tabText;
+}
+
+sf::Vector2f Map::getPositionBarreVie() {
+	return BarreVieBordure->getPosition();
+}

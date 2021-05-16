@@ -22,19 +22,16 @@ int main() {
 	Personnage hero = Personnage(100, 100, "test");
 	Map carte;
 	//fen�tre
-	sf::RenderWindow window(sf::VideoMode(largeurEcran, longueurEcran), "Fenetre SFML"); //cr�ation de la fen�tre (dimension, titre)
+	sf::RenderWindow window(sf::VideoMode(largeurEcran, longueurEcran), "Allume les tous !"); //cr�ation de la fen�tre (dimension, titre)
 	sf::View vue; // déclaration de la vue
 	sf::Clock clock;
 	sf::Time Dureeiteration;
-	sf::Text texte;
-	texte.setString("test");
-	texte.setPosition(0, 0);
-	texte.setCharacterSize(60);
+	Map niveau1;
 	//création de 3 cercles
 	Ennemi * mechant = new Ennemi(1);
 	std::vector <Ennemi*> tabEnnemis;
 	tabEnnemis.push_back(mechant);
-	Map niveau1;
+
 	niveau1.creationBoiteSecours(1000, 1000);
 	//début de la boucle fenetre ouverte
 	while (window.isOpen()) {
@@ -61,12 +58,16 @@ int main() {
 		window.clear();//nettoyage
 		paramVue(&vue, hero.getSpritePerso(), &window, &hero);// paramétrage de la vue
 		window.draw(*hero.getSpritePerso()); // affichage de notre personnage
-		window.draw(texte);
-		std::cout << vue.getCenter().x << std::endl;
+		
 		niveau1.affichageBarreVie(vue.getCenter().x,hero.getVie());
 		for (sf::RectangleShape * rect : *niveau1.getTabBarreVie())
 		{
 			window.draw(*rect);
+		}
+		niveau1.afficherTexte(niveau1.getPositionBarreVie());
+		for (sf::Text * text : *niveau1.getTabTexte())
+		{
+			window.draw(*text);
 		}
 		for (sf::CircleShape * objet : *niveau1.getTabBoiteSecours()) {
 			window.draw(*objet);
