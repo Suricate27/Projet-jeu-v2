@@ -15,9 +15,11 @@ protected:
 	sf::Clock clock;
 	sf::Time dureeVie = sf::Time::Zero;
 public:
-	Balles(float positionX, float positionY, int direction, sf::RenderWindow * window,int tailleH, int tailleL);
-	void avancer(sf::Time duréeitération, sf::RenderWindow * window);
+	Balles(float positionX, float positionY, int direction,int tailleH, int tailleL);
 	~Balles();
+
+	void avancer(sf::Time duréeitération, sf::RenderWindow * window);
+	
 	sf::Time getDureeVie();
 	float getPositionX();
 	float getPositionY();

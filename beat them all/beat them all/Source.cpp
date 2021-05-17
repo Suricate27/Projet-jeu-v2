@@ -157,9 +157,12 @@ flag:
 				}
 			}
 			if (ennemi->getTabEnnemi()->size() == 0 && vagueBoss == true) {
-				mapLevel = 2;
-				nettoyage(niveau);
-				goto flag;
+				if (mapLevel == 1) {
+					mapLevel = 2;
+					nettoyage(niveau);
+					goto flag;
+				}
+				menuIsOpen = true;
 			}
 			////////////////////AFFICHAGE///////////////////////////
 		window.clear();//nettoyage

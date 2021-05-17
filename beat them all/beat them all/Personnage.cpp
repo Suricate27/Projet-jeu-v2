@@ -87,11 +87,14 @@ void Personnage::deplacement(sf::Time duréeitération, sf::RenderWindow * window,
 		if (clockfatigue.getElapsedTime().asMilliseconds() > 200)
 		{
 			if (regenerationFatigue == false) {
-				arme->tirer(spritePerso.getPosition().x, spritePerso.getPosition().y, window, direction, dimensionH, dimensionL);
-				setFatigue();
-				vitesseDeplacement = 400 * fatigue;
-				if (vitesseDeplacement < 1)vitesseDeplacement = 1;
-				clock.restart();
+				if (arme->getMunitions() > 0) {
+					arme->tirer(spritePerso.getPosition().x, spritePerso.getPosition().y, direction, dimensionH, dimensionL);
+					setFatigue();
+					vitesseDeplacement = 400 * fatigue;
+					if (vitesseDeplacement < 1)vitesseDeplacement = 1;
+					clock.restart();
+				}
+				
 			}
 			
 		}
@@ -138,7 +141,7 @@ void Personnage::update(sf::Event event) { // gestion des variables bool a true 
 			direction = 1;
 			break;
 		case sf::Keyboard::Space:
-			regenerationFatigue = false;
+			if(arme->getMunitions()>0)regenerationFatigue = false;
 			tirer = true;
 			break;
 		case sf::Keyboard::R:
@@ -264,6 +267,9 @@ void Personnage::setFatigue() {
 	
 }
 void Personnage::regenFatigue() {
+	if (arme->getMunitions() <= 0) {
+		regenerationFatigue = true;
+	}
 	if (regenerationFatigue == true) {
 		if (clockfatigue.getElapsedTime().asMilliseconds() > 200) {
 			if (fatigue < 1) {

@@ -7,7 +7,7 @@ class Arme
 {
 protected:
 	int munitions;
-	int degat = 25;
+	int degat = 200;
 	std::string nom;
 	enum classe { léger, lourd, explosif };
 	int type;
@@ -18,7 +18,7 @@ protected:
 	std::vector<Balles*> tableauBalles=std::vector<Balles*>(); //tableau de cercle
 public:
 	Arme();
-	void tirer(float PosXJoueur, float PosYJoueur, sf::RenderWindow * window,int direction, int taillePersoH, int taillePersoL);
+	void tirer(float PosXJoueur, float PosYJoueur,int direction, int taillePersoH, int taillePersoL);
 	void recharger();
 	std::vector <Balles*> *getTableauBalles();
 	void setDirectionBalle(short int direction);

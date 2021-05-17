@@ -1,5 +1,5 @@
 #include "Balles.h"
-Balles::Balles(float positionX, float positionY,int direction, sf::RenderWindow * window, int tailleH, int tailleL){
+Balles::Balles(float positionX, float positionY,int direction, int tailleH, int tailleL){
 	dureeVie = clock.restart();
  	cercle = new sf::CircleShape(diametre);
 	cercle->setFillColor(sf::Color::Yellow);
