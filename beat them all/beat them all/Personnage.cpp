@@ -39,17 +39,21 @@ void Personnage::deplacement(sf::Time duréeitération, std::vector<Crate*>*tabCra
 	for (Crate * crate : *tabCrate) {
 		if (std::abs(crate->getSpriteCrate()->getPosition().x + float(crate->getDimension() / 2) - (spritePerso.getPosition().x + float(dimensionL / 2))) < float(0.8*dimensionL) && std::abs(crate->getSpriteCrate()->getPosition().y + float(crate->getDimension() / 2) - (spritePerso.getPosition().y + float(dimensionH / 2))) < float(0.8*dimensionH)) {
 			
-			if (crate->getSpriteCrate()->getPosition().x > spritePerso.getPosition().x) {
-				moveRight = 0;
+			if (crate->getSpriteCrate()->getPosition().x+34 > spritePerso.getPosition().x) {
+				spritePerso.move(- 5, 0);
+				//moveRight = 0;
 			}
-			if (spritePerso.getPosition().x > crate->getSpriteCrate()->getPosition().x) {
-				moveLeft = 0;
+			else if (spritePerso.getPosition().x -34 > crate->getSpriteCrate()->getPosition().x) {
+				spritePerso.move( 5, 0);
+				//moveLeft = 0;
 			}
-			if (spritePerso.getPosition().y > crate->getSpriteCrate()->getPosition().y) {
-				moveUp = 0;
+			else if (spritePerso.getPosition().y > crate->getSpriteCrate()->getPosition().y) {
+				spritePerso.move(0, 5);
+				//moveUp = 0;
 			}
-			if (spritePerso.getPosition().y < crate->getSpriteCrate()->getPosition().y) {
-				moveDown = 0;
+			else if (spritePerso.getPosition().y < crate->getSpriteCrate()->getPosition().y) {
+				spritePerso.move(0, -5);
+				//moveDown = 0;
 			}
 		}
 	}
@@ -60,14 +64,14 @@ void Personnage::deplacement(sf::Time duréeitération, std::vector<Crate*>*tabCra
 		animation.y = haut;
 		updateFPS = true;
 	}
-	else if (moveDown) {
+	if (moveDown) {
 		if (spritePerso.getPosition().y <= longueurEcran - dimensionH) {//empecher la sortie de fenêtre
 			spritePerso.move(0,  vitesseDeplacement*duréeitération.asSeconds());
 		}
 		animation.y = bas;
 		updateFPS = true;
 	}
-	else if (moveLeft)
+	if (moveLeft)
 	{
 		if (spritePerso.getPosition().x >= 0) {
 			spritePerso.move( -vitesseDeplacement * duréeitération.asSeconds(), 0);
@@ -75,8 +79,8 @@ void Personnage::deplacement(sf::Time duréeitération, std::vector<Crate*>*tabCra
 		animation.y = gauche;
 		updateFPS = true;
 	}
-	else if (moveRight) {
-		if (spritePerso.getPosition().x <= 15000 - dimensionL) {// Fin du niveau en 15000
+	 if (moveRight) {
+		if (spritePerso.getPosition().x <= 12510) {// Fin du niveau en 15000
 			spritePerso.move( vitesseDeplacement*duréeitération.asSeconds(), 0);
 		}
 		animation.y = droite;
@@ -261,7 +265,6 @@ void Personnage::setFatigue() {
 	if (fatigue > 0) {
 		fatigue -= 0.002;
 	}
-	
 }
 void Personnage::regenFatigue() {
 	if (arme->getMunitions() <= 0) {

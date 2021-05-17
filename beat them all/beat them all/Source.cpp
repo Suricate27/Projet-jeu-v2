@@ -18,7 +18,7 @@ void paramVue(sf::View *vue, sf::Sprite *spritePerso, sf::RenderWindow *window, 
 void nettoyage(Map *niveau,Personnage * hero);
 int main() {
 	bool menuIsOpen = true;
-	bool GodMode = 0;
+	bool GodMode = 1;
 	srand(time(NULL));
 	//fen�tre
 	sf::RenderWindow window(sf::VideoMode(largeurEcran, longueurEcran), "Beat Them All", sf::Style::Close); //cr�ation de la fen�tre (dimension, titre)
@@ -47,7 +47,7 @@ flag:
 		}
 		for (int i = 0; i < 6*mapLevel; i++) {
 			niveau->CreationBoite((rand() % 500 + 700) + i * 2000, (rand() % 150 + 350) - niveau->getDimensionCrate());
-		}	
+		}
 	}
 	//début de la boucle fenetre ouverte
 	while (window.isOpen()) {
@@ -154,13 +154,17 @@ flag:
 				}
 			}
 			//lancement niveau 2
-			if (ennemi->getTabEnnemi()->size() == 0 && vagueBoss == true) {
+			std::cout << hero->getSpritePerso()->getPosition().x << std::endl;
+
+			if (ennemi->getTabEnnemi()->size() == 0 && vagueBoss == true && hero->getSpritePerso()->getPosition().x > 12500) {
 				if (mapLevel == 1) {
 					mapLevel = 2;
 					nettoyage(niveau,hero);
 					goto flag;
 				}
-				menuIsOpen = true;
+				else {
+					menuIsOpen = true;
+				}
 			}
 		////////////////////AFFICHAGE///////////////////////////
 		window.clear();//nettoyage
@@ -206,8 +210,8 @@ void paramVue(sf::View *vue, sf::Sprite *spritePerso, sf::RenderWindow *window, 
 
 	position.x = spritePerso->getPosition().x + (hero->getDimensionH() / 2) - (largeurEcran*0.666); // la vue vers la gauche peut bouger mais pas avant que le perso soit � 2/3 de l'ecran
 	position.y = 0; // la vue verticale ne bouge pas
-
 	if (position.x <= 0)position.x = 0; // si la vue doit d�passer l'ecran vers la gauche, elle ne le fait pas
+	if (position.x >= 11500)position.x = 11500;
 	vue->reset(sf::FloatRect(position.x, position.y, largeurEcran, longueurEcran)); // reset de la vue
 	window->setView(*vue); // affichage de la vue 
 }

@@ -8,7 +8,7 @@ class Arme
 protected:
 	int capaciteChargeur = 32;
 	int munitions = capaciteChargeur;
-	int degat = 200;
+	int degat = 50;
 	int VitesseArme = 1;
 	int vitesseArmeMax = 25;
 	int type;
