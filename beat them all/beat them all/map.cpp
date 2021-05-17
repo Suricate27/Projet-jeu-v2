@@ -99,3 +99,11 @@ void Map::CreationBoite(int positionX, int positionY) {
 std::vector <Crate*>*Map::getTabCrate() {
 	return &tabCrate;
 }
+int Map::getDimensionCrate() {
+	Crate box(0,0);
+	return box.getDimension();
+}
+int Map::getDimensionSecours() {
+	BoiteSecours box(0, 0);
+	return box.getDimension();
+}

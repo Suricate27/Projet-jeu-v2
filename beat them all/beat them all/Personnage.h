@@ -16,8 +16,8 @@ protected:
 	float vitesseDeplacement = 400;
 	std::string nom;
 	int degatCac = 5;
-	int dimensionL = 66;
-	int dimensionH = 78;
+	int dimensionL = 67;
+	int dimensionH = 80;
 	int direction = 1;
 	float fatigue = 1;
 	enum direction { haut, gauche, bas, droite };
@@ -37,7 +37,7 @@ public:
 	int getVie();
 	void deplacement(sf::Time  duréeitération, sf::RenderWindow * window, std::vector<Crate*>*tabCrate);
 	void update(sf::Event event);
-	void testingCollision(Arme * arme, Ennemi * ennemi, std::vector<Ennemi*> * tabEnnemi,std::vector<BoiteSecours*>*tabObjRamassé);
+	void testingCollision(Arme * arme, std::vector<Ennemi*> * tabEnnemi,std::vector<BoiteSecours*>*tabObjRamassé);
 	void deplacementBalle(sf::Time duréeitération, sf::RenderWindow * window);
 	Arme  * getArme();
 	sf::Sprite * getSpritePerso();

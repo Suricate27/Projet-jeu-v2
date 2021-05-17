@@ -50,7 +50,9 @@ public:
 	sf::Sprite * getSpriteBack();
 	std::vector <sf::Sprite*>*getTabFond();
 	std::vector <Crate*>*getTabCrate();
-
 	std::vector<sf::CircleShape*> * getObjets();
+
+	int getDimensionCrate();
+	int getDimensionSecours();
 };
 

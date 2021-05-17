@@ -23,7 +23,9 @@ int main() {
 	std::cout <<"largeur ecran : " <<largeurEcran << std::endl;
 	//objet
 	bool menuIsOpen = true;
-	
+	bool GodMode = true;
+	bool vague1 = 0, vague2 = 0, vague3 = 0, vagueBoss=0;
+	srand(time(NULL));
 	//fen�tre
 	sf::RenderWindow window(sf::VideoMode(largeurEcran, longueurEcran), "Beat Them All", sf::Style::Close); //cr�ation de la fen�tre (dimension, titre)
 	sf::View vue; // déclaration de la vue
@@ -32,21 +34,22 @@ int main() {
 	sf::Font font;
 	sf::Text *textmenu = new sf::Text;
 	int mapLevel;
+
 	Map niveau1;
-	//création de 3 cercles
-	Ennemi * mechant = new Ennemi(1);
-	std::vector <Ennemi*> tabEnnemis;
-	tabEnnemis.push_back(mechant);
+	/*std::vector<Ennemi*> tabEnnemi;*/
+	Ennemi *ennemi = new Ennemi(1);
+	ennemi->apparition(4);
+	ennemi->apparition(1);
 	int selectionMenu=1;
-	niveau1.creationBoiteSecours(1000, 400);
-	niveau1.CreationBoite(70, 70);
-	niveau1.CreationBoite(500, 400);
+	for (int i = 0; i < 10; i++) {
+		niveau1.creationBoiteSecours((rand()%500+700)+i*1000, (rand()%200+300)-niveau1.getDimensionSecours());
+	}
+	for (int i = 0; i < 6; i++) {
+		niveau1.CreationBoite((rand() % 500 + 700) + i * 2000, (rand() % 200 + 300)-niveau1.getDimensionCrate());
+	}
 	Personnage *hero = new Personnage(100, 100, "test");;
 	//début de la boucle fenetre ouverte
 	while (window.isOpen()) {
-		if (!menuIsOpen) {
-			Personnage *hero = new Personnage(100, 100, "test");
-		}
 		Dureeiteration = clock.restart();
 		sf::Event event; //  création d'un object evenement
 		window.setFramerateLimit(100); //FPS limit 100
@@ -111,14 +114,46 @@ int main() {
 		textmenu->setPosition((largeurEcran / 2) - textmenu->getLocalBounds().width/2, 200);
 		window.draw(*textmenu);
 		}
+
 		if (!menuIsOpen) {
+			if (hero->getSpritePerso()->getPosition().x> 2000 && vague1 == false)
+			{
+				vague1 = true;
+				for (int i = 0; i < 4; i++) {
+					ennemi->apparition(1, hero->getSpritePerso()->getPosition().x);
+				}
+			}
+			if (hero->getSpritePerso()->getPosition().x > 4000 && vague2 == false)
+			{
+				vague2= true;
+				for (int i = 0; i < 4; i++) {
+					ennemi->apparition(2, hero->getSpritePerso()->getPosition().x);
+				}
+			}
+			if (hero->getSpritePerso()->getPosition().x > 6000 && vague3 == false)
+			{
+				vague3= true;
+				for (int i = 0; i < 4; i++) {
+					ennemi->apparition(3, hero->getSpritePerso()->getPosition().x);
+				}
+			}
+			if (hero->getSpritePerso()->getPosition().x > 10000 && vagueBoss == false)
+			{
+				vagueBoss = true;
+					ennemi->apparition(4, hero->getSpritePerso()->getPosition().x);
+				
+			}
 			hero->deplacement(Dureeiteration, &window, niveau1.getTabCrate()); // gestion animation + déplacement
-			hero->testingCollision(hero->getArme(), mechant, &tabEnnemis, niveau1.getTabBoiteSecours());
-			mechant->deplacement(hero->getPositionX(), hero->getPositionY());
+			hero->testingCollision(hero->getArme(),ennemi->getTabEnnemi(), niveau1.getTabBoiteSecours());
+			for (Ennemi * mechant : *ennemi->getTabEnnemi()) {
+				mechant->deplacement(hero->getPositionX(), hero->getPositionY());
+			}
 			hero->regenerationVie();
 			hero->regenFatigue();
-			if (hero->getVie() <= 0) {
-				menuIsOpen = true;
+			if (!GodMode) {
+				if (hero->getVie() <= 0) {
+					menuIsOpen = true;
+				}
 			}
 			////////////////////AFFICHAGE///////////////////////////
 		window.clear();//nettoyage
@@ -143,7 +178,7 @@ int main() {
 		for (BoiteSecours * objet : *niveau1.getTabBoiteSecours()) {
 			window.draw(*objet->getsprite());
 		}
-		for (Ennemi * mechant : tabEnnemis) {
+		for (Ennemi * mechant : *ennemi->getTabEnnemi()) {
 			window.draw(*mechant->getSpriteEnnemi());
 		}
 		hero->deplacementBalle(Dureeiteration, &window);

@@ -9,7 +9,7 @@ Personnage::Personnage(int vie, int dégat, std::string nom){
 	arme = new Arme();
 	animation = sf::Vector2i(1, haut);
 	// chargement de la texture
-	if (!texturePerso.loadFromFile("Textures/sprites.png")) // vérif ouverture fichier
+	if (!texturePerso.loadFromFile("Textures/sprites2.png")) // vérif ouverture fichier
 	{
 		std::cout << "Erreur chargement texture" << std::endl;
 	}
@@ -39,16 +39,17 @@ void Personnage::deplacement(sf::Time duréeitération, sf::RenderWindow * window,
 		// Donc on va calculer le déplacement avec temps passé avec la touche enfoncée.
 	for (Crate * crate : *tabCrate) {
 		if (std::abs(crate->getSpriteCrate()->getPosition().x + float(crate->getDimension() / 2) - (spritePerso.getPosition().x + float(dimensionL / 2))) < float(0.8*dimensionL) && std::abs(crate->getSpriteCrate()->getPosition().y + float(crate->getDimension() / 2) - (spritePerso.getPosition().y + float(dimensionH / 2))) < float(0.8*dimensionH)) {
+			
 			if (crate->getSpriteCrate()->getPosition().x > spritePerso.getPosition().x) {
 				moveRight = 0;
 			}
 			if (spritePerso.getPosition().x > crate->getSpriteCrate()->getPosition().x) {
 				moveLeft = 0;
 			}
-			if (spritePerso.getPosition().y > crate->getSpriteCrate()->getPosition().x) {
+			if (spritePerso.getPosition().y > crate->getSpriteCrate()->getPosition().y) {
 				moveUp = 0;
 			}
-			if (spritePerso.getPosition().y < crate->getSpriteCrate()->getPosition().x) {
+			if (spritePerso.getPosition().y < crate->getSpriteCrate()->getPosition().y) {
 				moveDown = 0;
 			}
 		}
@@ -176,11 +177,12 @@ void Personnage::update(sf::Event event) { // gestion des variables bool a true 
 
 }// gestion des variables bool a true si une touche est enfoncée
 
-void Personnage::testingCollision(Arme * arme, Ennemi * ennemi, std::vector<Ennemi*>* tabEnnemi, std::vector<BoiteSecours*>*tabObjRamassé) {
-	int i = -1,j=-1,k=-1;
+void Personnage::testingCollision(Arme * arme, std::vector<Ennemi*>* tabEnnemi, std::vector<BoiteSecours*>*tabObjRamassé) {
+	int i = -1, j=-1,k=-1;
 	for (Ennemi * ennemi : *tabEnnemi) {
 		j++;
 		//gestion collision entre balle et enemi
+		i = -1;
 		for (Balles * cercle :  *arme->getTableauBalles()) {
 			i++;
 			if (std::abs(ennemi->getSpriteEnnemi()->getPosition().x + float(ennemi->getDimensionL() / 2) - (cercle->getPositionX()+ float(cercle->getDiametre() / 2))) < float(0.8*ennemi->getDimensionL()) && std::abs(ennemi->getSpriteEnnemi()->getPosition().y + float(ennemi->getDimensionH() / 2) - (cercle->getPositionY() + float(cercle->getDiametre()/ 2))) < float(0.8*ennemi->getDimensionH())) {
@@ -204,7 +206,6 @@ void Personnage::testingCollision(Arme * arme, Ennemi * ennemi, std::vector<Enne
 		if (std::abs(ennemi->getSpriteEnnemi()->getPosition().x + float(ennemi->getDimensionL() / 2) - (spritePerso.getPosition().x + float(dimensionL / 2))) < float(ennemi->getDimensionL()) && std::abs(ennemi->getSpriteEnnemi()->getPosition().y + float(ennemi->getDimensionH() / 2) - (spritePerso.getPosition().y + float(dimensionH / 2))) < float(ennemi->getDimensionH())) {
 
 			if (cac == true && clockcorpacorp.getElapsedTime().asMilliseconds() > 300) {
-				std::cout << "flag" << std::endl;
 				ennemi->recevoirDegat(degatCac);
 				ennemi->toucheCac();
 				clockcorpacorp.restart();
@@ -216,6 +217,7 @@ void Personnage::testingCollision(Arme * arme, Ennemi * ennemi, std::vector<Enne
 		}
 	}
 	//collision entre perso soins
+	k = -1;
 	for (BoiteSecours * objetramasse : *tabObjRamassé) {
 		k++;
 		if (std::abs(objetramasse->getsprite()->getPosition().x + float(objetramasse->getDimension() / 2) - (spritePerso.getPosition().x + float(dimensionL / 2))) < float(dimensionL*0.8) && std::abs(objetramasse->getsprite()->getPosition().y + float(objetramasse->getDimension() / 2) - (spritePerso.getPosition().y + float(dimensionH / 2))) < float(0.8*dimensionH)) {

@@ -21,7 +21,9 @@ protected:
 	sf::Texture textureEnnemi;
 	sf::Sprite spriteEnnemi;
 	sf::Clock clockAnimation;
+	std::vector <Ennemi*> tabEnnemis;
 public:
+	Ennemi(int niveau,int PositionXPersonnage);
 	Ennemi(int niveau);
 	~Ennemi();
 	void recevoirDegat(int degat);
@@ -33,5 +35,8 @@ public:
 	int getDimensionH();
 	int getDimensionL();
 	void toucheCac();
+	void apparition(int niveau);
+	void apparition(int niveau,int PositionXPersonnage);
+	std::vector <Ennemi*>*getTabEnnemi();
 };
 
