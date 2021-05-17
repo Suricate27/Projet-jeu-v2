@@ -6,6 +6,7 @@ Personnage::Personnage(int vie, int dégat, std::string nom){
 	this->vie = vie;
 	this->dégat = dégat;
 	this->nom = nom;
+	vitesseDeplacement = vitesseDeplacementinit;
 	arme = new Arme();
 	animation = sf::Vector2i(1, haut);
 	// chargement de la texture
@@ -18,8 +19,10 @@ Personnage::Personnage(int vie, int dégat, std::string nom){
 	spritePerso.setTextureRect(sf::IntRect(dimensionL, 3 * dimensionH, dimensionL, dimensionH)); // Pour que le premier affichage du personnage soit vers la droite
 	spritePerso.setPosition(0, longueurEcran - dimensionH); //démarre en bas de la fenêtre 
 }
-
-void Personnage::deplacement(sf::Time duréeitération, sf::RenderWindow * window, std::vector<Crate*>*tabCrate) { // gère les animations de déplacement et les déplacement 
+Personnage::~Personnage() {
+	delete arme;
+}
+void Personnage::deplacement(sf::Time duréeitération, std::vector<Crate*>*tabCrate) { // gère les animations de déplacement et les déplacement 
 	
 	if (clockAnimation.getElapsedTime().asMilliseconds() >= (1/(float)vitesseDeplacement)*50000) // pour que la vitesse des animations soit liée à la vitesse du personnage j'ai définis 0.2 (1/5) parce que je trouvais ça ok
 	{
@@ -31,11 +34,7 @@ void Personnage::deplacement(sf::Time duréeitération, sf::RenderWindow * window,
 		spritePerso.setTextureRect(sf::IntRect(animation.x * dimensionL, animation.y * dimensionH, dimensionL, dimensionH)); //x et y c'est parce qu'on va utiliser les sprites comme un tableau
 		updateFPS = false; //repasse à faux à chaque boucle comme ça il n'est vrai que si une touche est enfoncée.
 	}
-	// permet de ralentir le nombre d'affichage d'animation 1 images toute les 100ms
-
 		// il va constament tester ( 100 fois par seconde ) s'il doit bouger. Si les variables sont vraies alors il va bouger
-		// Le problème de calculer la vitesse avec des pixels c'est que si la machine ram bah le personnage est lent et ça doit être independant.
-		
 		// Donc on va calculer le déplacement avec temps passé avec la touche enfoncée.
 	for (Crate * crate : *tabCrate) {
 		if (std::abs(crate->getSpriteCrate()->getPosition().x + float(crate->getDimension() / 2) - (spritePerso.getPosition().x + float(dimensionL / 2))) < float(0.8*dimensionL) && std::abs(crate->getSpriteCrate()->getPosition().y + float(crate->getDimension() / 2) - (spritePerso.getPosition().y + float(dimensionH / 2))) < float(0.8*dimensionH)) {
@@ -77,7 +76,7 @@ void Personnage::deplacement(sf::Time duréeitération, sf::RenderWindow * window,
 		updateFPS = true;
 	}
 	else if (moveRight) {
-		if (spritePerso.getPosition().x <= 15000 - dimensionL) {
+		if (spritePerso.getPosition().x <= 15000 - dimensionL) {// Fin du niveau en 15000
 			spritePerso.move( vitesseDeplacement*duréeitération.asSeconds(), 0);
 		}
 		animation.y = droite;
@@ -90,7 +89,7 @@ void Personnage::deplacement(sf::Time duréeitération, sf::RenderWindow * window,
 				if (arme->getMunitions() > 0) {
 					arme->tirer(spritePerso.getPosition().x, spritePerso.getPosition().y, direction, dimensionH, dimensionL);
 					setFatigue();
-					vitesseDeplacement = 400 * fatigue;
+					vitesseDeplacement = vitesseDeplacementinit * fatigue;
 					if (vitesseDeplacement < 1)vitesseDeplacement = 1;
 					clock.restart();
 				}
@@ -108,8 +107,7 @@ void Personnage::deplacementBalle(sf::Time duréeitération, sf::RenderWindow * wi
 	for (Balles * balle : *arme->getTableauBalles()) { // dessiner les cercles
 		balle->avancer(duréeitération, window);
 		i++;
-		sf::Time max = sf::milliseconds(4000);
-		if (balle->getDureeVie().asMilliseconds() >= max.asMilliseconds()) {
+		if (balle->getDureeVie().asMilliseconds() >= balle->getDureeVieMax().asMilliseconds()) {
 			delete balle;
 			arme->getTableauBalles()->erase(arme->getTableauBalles()->begin() + i);
 		}	
@@ -180,11 +178,11 @@ void Personnage::update(sf::Event event) { // gestion des variables bool a true 
 
 }// gestion des variables bool a true si une touche est enfoncée
 
-void Personnage::testingCollision(Arme * arme, std::vector<Ennemi*>* tabEnnemi, std::vector<BoiteSecours*>*tabObjRamassé) {
+void Personnage::testingCollision(std::vector<Ennemi*>* tabEnnemi, std::vector<BoiteSecours*>*tabObjRamassé) {
 	int i = -1, j=-1,k=-1;
 	for (Ennemi * ennemi : *tabEnnemi) {
 		j++;
-		//gestion collision entre balle et enemi
+		//gestion collision entre balle et ennemi
 		i = -1;
 		for (Balles * cercle :  *arme->getTableauBalles()) {
 			i++;
@@ -201,13 +199,12 @@ void Personnage::testingCollision(Arme * arme, std::vector<Ennemi*>* tabEnnemi, 
 		//gestion collision entre ennemi et le perso
 		if (std::abs(ennemi->getSpriteEnnemi()->getPosition().x + float(ennemi->getDimensionL() / 2) - (spritePerso.getPosition().x + float(dimensionL / 2))) < float(0.8*ennemi->getDimensionL()) && std::abs(ennemi->getSpriteEnnemi()->getPosition().y + float(ennemi->getDimensionH() / 2) - (spritePerso.getPosition().y+ float(dimensionH / 2))) < float(0.8*ennemi->getDimensionH())) {
 			
-			if (clockVie.getElapsedTime().asMilliseconds() > 100 && vie > 0) {
+			if (clockVie.getElapsedTime().asMilliseconds() > 200 && vie > 0) {
 				vie -= ennemi->getDegat();
 				clockVie.restart();
 			}	
 		}
 		if (std::abs(ennemi->getSpriteEnnemi()->getPosition().x + float(ennemi->getDimensionL() / 2) - (spritePerso.getPosition().x + float(dimensionL / 2))) < float(ennemi->getDimensionL()) && std::abs(ennemi->getSpriteEnnemi()->getPosition().y + float(ennemi->getDimensionH() / 2) - (spritePerso.getPosition().y + float(dimensionH / 2))) < float(ennemi->getDimensionH())) {
-
 			if (cac == true && clockcorpacorp.getElapsedTime().asMilliseconds() > 300) {
 				ennemi->recevoirDegat(degatCac);
 				ennemi->toucheCac(direction);

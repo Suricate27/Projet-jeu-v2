@@ -1,12 +1,8 @@
-//test pour github partie Laurent
-// dev enemi
-// test
+
 #include <iostream>
 #include <SFML/graphics.hpp>
 #include <vector>
 #include <Windows.h> 
-//#include <WinUser.h>
-//#include <ShellScalingApi.h>
 #include "Personnage.h"
 #include "Map.h"
 #include "Arme.h"
@@ -14,15 +10,15 @@
 #include "Ennemi.h"
 #include "Header.h"
 #include "Crate.h"
+
 #define longueurEcran 500
 #define largeurEcran 1000
 //fonction
 void paramVue(sf::View *vue, sf::Sprite *spritePerso, sf::RenderWindow *window, Personnage *hero);
-void nettoyage(Map *niveau);
+void nettoyage(Map *niveau,Personnage * hero);
 int main() {
-	//objet
 	bool menuIsOpen = true;
-	bool GodMode = 1;
+	bool GodMode = 0;
 	srand(time(NULL));
 	//fen�tre
 	sf::RenderWindow window(sf::VideoMode(largeurEcran, longueurEcran), "Beat Them All", sf::Style::Close); //cr�ation de la fen�tre (dimension, titre)
@@ -38,11 +34,12 @@ int main() {
 	Personnage *hero = new Personnage(100, 100, "Lord");
 	bool vague1 = 0, vague2 = 0, vague3 = 0, vagueBoss = 0;
 flag:
-	vague1 = 0, vague2 = 0, vague3 = 0, vagueBoss = 0;
-	niveau = new Map(mapLevel);
 	if (!menuIsOpen) {
+		vague1 = 0, vague2 = 0, vague3 = 0, vagueBoss = 0;
+		niveau = new Map(mapLevel);
 		hero = new Personnage(100, 100, "Lord");
 		ennemi = new Ennemi(1);
+		//Direct dans la partie
 		ennemi->apparition(4);
 		ennemi->apparition(1);
 		for (int i = 0; i < 10/mapLevel; i++) {
@@ -50,8 +47,7 @@ flag:
 		}
 		for (int i = 0; i < 6*mapLevel; i++) {
 			niveau->CreationBoite((rand() % 500 + 700) + i * 2000, (rand() % 150 + 350) - niveau->getDimensionCrate());
-		}
-		
+		}	
 	}
 	//début de la boucle fenetre ouverte
 	while (window.isOpen()) {
@@ -65,7 +61,7 @@ flag:
 				window.close();
 				break;
 			default:
-				hero->update(event);
+				if(!menuIsOpen)hero->update(event);
 				if (menuIsOpen) {
 					switch (event.type)
 					{
@@ -88,10 +84,9 @@ flag:
 				break;
 			}//gestion clavier 	
 		}
+		//menu
 		if(menuIsOpen){
 		window.clear();//nettoyage
-		//niveau->.affichageMenu();
-		//niveau->.affichage(&window);
 		if (!font.loadFromFile("arial.ttf")) {
 			std::cout << "Erreur chargement Police : arial.ttf introuvable" << std::endl;
 		}
@@ -114,6 +109,7 @@ flag:
 		textmenu->setPosition(vue.getCenter().x - textmenu->getLocalBounds().width/2, 200);
 		window.draw(*textmenu);
 		}
+		//vague
 		if (!menuIsOpen) {
 			if (hero->getSpritePerso()->getPosition().x> 2000 && vague1 == false)
 			{
@@ -144,8 +140,9 @@ flag:
 				}	
 				
 			}
-			hero->deplacement(Dureeiteration, &window, niveau->getTabCrate()); // gestion animation + déplacement
-			hero->testingCollision(hero->getArme(),ennemi->getTabEnnemi(), niveau->getTabBoiteSecours());
+			//gestion des objets
+			hero->deplacement(Dureeiteration, niveau->getTabCrate()); // gestion animation + déplacement
+			hero->testingCollision(ennemi->getTabEnnemi(), niveau->getTabBoiteSecours());
 			for (Ennemi * mechant : *ennemi->getTabEnnemi()) {
 				mechant->deplacement(hero->getPositionX(), hero->getPositionY());
 			}
@@ -156,15 +153,16 @@ flag:
 					menuIsOpen = true;
 				}
 			}
+			//lancement niveau 2
 			if (ennemi->getTabEnnemi()->size() == 0 && vagueBoss == true) {
 				if (mapLevel == 1) {
 					mapLevel = 2;
-					nettoyage(niveau);
+					nettoyage(niveau,hero);
 					goto flag;
 				}
 				menuIsOpen = true;
 			}
-			////////////////////AFFICHAGE///////////////////////////
+		////////////////////AFFICHAGE///////////////////////////
 		window.clear();//nettoyage
 
 		paramVue(&vue, hero->getSpritePerso(), &window, hero);// paramétrage de la vue
@@ -192,12 +190,14 @@ flag:
 		}
 		hero->deplacementBalle(Dureeiteration, &window);
 		}
-
 		window.display();//affichage de la fenétre
 		if (menuIsOpen) {
-			nettoyage(niveau);
+			nettoyage(niveau,hero);
 		}
 	}
+	delete hero;
+	delete ennemi;
+	delete niveau;
 }
 void paramVue(sf::View *vue, sf::Sprite *spritePerso, sf::RenderWindow *window, Personnage *hero) {
 
@@ -210,9 +210,8 @@ void paramVue(sf::View *vue, sf::Sprite *spritePerso, sf::RenderWindow *window, 
 	if (position.x <= 0)position.x = 0; // si la vue doit d�passer l'ecran vers la gauche, elle ne le fait pas
 	vue->reset(sf::FloatRect(position.x, position.y, largeurEcran, longueurEcran)); // reset de la vue
 	window->setView(*vue); // affichage de la vue 
-
 }
-void nettoyage(Map *niveau) {
+void nettoyage(Map *niveau,Personnage *hero) {
 	for (BoiteSecours * objet : *niveau->getTabBoiteSecours()) {
 		delete objet;
 	}
@@ -221,6 +220,11 @@ void nettoyage(Map *niveau) {
 		delete crate;
 	}
 	niveau->getTabCrate()->clear();
+	for (Balles * balle : *hero->getArme()->getTableauBalles()) {
+		delete balle;
+	}
+	hero->getArme()->getTableauBalles()->clear();
+	
 }
 
 

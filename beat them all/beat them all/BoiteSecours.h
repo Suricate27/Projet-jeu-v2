@@ -12,8 +12,9 @@ protected:
 public:
 	BoiteSecours(int positionX, int positionY);
 	int getDimension();
-	sf::Sprite * getsprite();
 	int getCapaciteSoins();
+	sf::Sprite * getsprite();
+	
 
 
 };

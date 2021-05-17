@@ -6,7 +6,7 @@ Ennemi::Ennemi(int niveau) {
 	vitesse = (niveau + 2) / 3; //vitesse par niveau (1|1.33|1.66|2)
 	animation = sf::Vector2i((13 - 3 * niveau), haut);
 	// chargement de la texture
-	if (!textureEnnemi.loadFromFile("Textures/SpriteEnnemi.png")) // v�rif ouverture fichier
+	if (!textureEnnemi.loadFromFile("Textures/SpriteEnnemi.png")) // verif ouverture fichier
 	{
 		std::cout << "Erreur chargement texture ennemi" << std::endl;
 	}
@@ -30,9 +30,6 @@ Ennemi::Ennemi(int niveau, int positionXPersonnage) {
 	spriteEnnemi.setTexture(textureEnnemi);
 	spriteEnnemi.setTextureRect(sf::IntRect((13 - 3 * niveau)*dimensionL, dimensionH, dimensionL, dimensionH)); // Pour que le premier affichage du personnage soit vers la droite
 	spriteEnnemi.setPosition((rand()%700)+500+positionXPersonnage,(rand()%170)+330-dimensionH);//somme des 2 doit faire le chiffre max
-}
-Ennemi::~Ennemi() {
-
 }
 void Ennemi::recevoirDegat(int degat) {
 	vie -= degat;

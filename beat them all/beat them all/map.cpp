@@ -1,9 +1,4 @@
 #include "Map.h"
-#include<filesystem>
-void Map::creationBoiteSecours(float positionX, float positionY) {
-	BoiteSecours *boite = new BoiteSecours(positionX, positionY);
-	TabBoiteSecours.push_back(boite);
-}
 Map::Map(int maplevel) {
 	if (maplevel == 2) {
 		if (!textureBack.loadFromFile("Textures/Back2.png")) // v�rif ouverture fichier
@@ -29,11 +24,9 @@ Map::Map(int maplevel) {
 
 	}
 }
-std::vector<sf::CircleShape*> * Map::getObjets() {
-	return &objets;
-}
-void Map::creationCercle(float positionX, float positionY) { //cr�e les cercles
-	sf::CircleShape *cercle = new sf::CircleShape(100);
+void Map::creationBoiteSecours(float positionX, float positionY) {
+	BoiteSecours *boite = new BoiteSecours(positionX, positionY);
+	TabBoiteSecours.push_back(boite);
 }
 std::vector<BoiteSecours*> * Map::getTabBoiteSecours() {
 	return &TabBoiteSecours;
@@ -45,7 +38,7 @@ void Map::affichageBarreVie(int centreVue,int vieJoueur, float fatigueJoueur) {
 	if (tabBarreVie.size() > 3) {
 		tabBarreVie.clear();
 	}
-	BarreVieBordure->setSize(sf::Vector2f(200+10, (largeurEcran / 40)+35));
+	BarreVieBordure->setSize(sf::Vector2f(200+10, (largeurEcran / 40)+22));
 	BarreVieBordure->setFillColor(sf::Color::Red);
 	BarreVieBordure->setPosition(centreVue-BarreVieBordure->getSize().x/2, 20);
 	tabBarreVie.push_back(BarreVieBordure);
@@ -53,7 +46,7 @@ void Map::affichageBarreVie(int centreVue,int vieJoueur, float fatigueJoueur) {
 	BarreVie->setFillColor(sf::Color::Green);
 	BarreVie->setPosition(BarreVieBordure->getPosition().x+5 , BarreVieBordure->getPosition().y+5 );
 	tabBarreVie.push_back(BarreVie);
-	BarreFatigue->setSize(sf::Vector2f(float(fatigueJoueur * 200), largeurEcran / 40));
+	BarreFatigue->setSize(sf::Vector2f(float(fatigueJoueur * 200), largeurEcran / 80));
 	BarreFatigue->setFillColor(sf::Color::Yellow);
 	BarreFatigue->setPosition(BarreVieBordure->getPosition().x +5, BarreVieBordure->getPosition().y + (largeurEcran / 40)+5);
 	tabBarreVie.push_back(BarreFatigue);
@@ -71,16 +64,6 @@ void Map::afficherTexte(sf::Vector2f PositionBarreVie) {
 	text->setCharacterSize(largeurEcran/50);
 	text->setPosition(PositionBarreVie.x-width, PositionBarreVie.y);
 }
-void Map::affichageMenu() {
-	//if (!font.loadFromFile("arial.ttf")) {
-	//	std::cout << "Erreur chargement Police : arial.ttf introuvable" << std::endl;
-	//}
-	//textmenu->setString("Menu");
-	//textmenu->setFont(font);
-	//textmenu->setCharacterSize(largeurEcran / 50);
-	//textmenu->setPosition((largeurEcran/2)- textmenu->getLocalBounds().width, 0);
-	
-}
 void Map::affichageTextMunitions(int munitions, sf::Vector2f PositionBarreVie) {
 	textmun->setString(std::string("Munitions : ") + std::to_string(munitions));
 	textmun->setFont(font);
@@ -90,7 +73,6 @@ void Map::affichageTextMunitions(int munitions, sf::Vector2f PositionBarreVie) {
 sf::Vector2f Map::getPositionBarreVie() {
 	return BarreVieBordure->getPosition();
 }
-
 void Map::affichage(sf::RenderWindow * window) {
 	window->draw(*textmun);
 	window->draw(*text);
@@ -103,7 +85,6 @@ void Map::CreationBoite(int positionX, int positionY) {
 	Crate *box = new Crate(positionX,positionY);
 	tabCrate.push_back(box);
 }
-
 std::vector <Crate*>*Map::getTabCrate() {
 	return &tabCrate;
 }

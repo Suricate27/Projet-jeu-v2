@@ -6,26 +6,22 @@
 class Arme
 {
 protected:
-	int munitions;
+	int capaciteChargeur = 32;
+	int munitions = capaciteChargeur;
 	int degat = 200;
-	std::string nom;
-	enum classe { léger, lourd, explosif };
-	int type;
 	int VitesseArme = 1;
 	int vitesseArmeMax = 25;
-	bool distance;
+	int type;
 	sf::Clock timerTir;
+	std::string nom;
 	std::vector<Balles*> tableauBalles=std::vector<Balles*>(); //tableau de cercle
 public:
 	Arme();
 	void tirer(float PosXJoueur, float PosYJoueur,int direction, int taillePersoH, int taillePersoL);
 	void recharger();
-	std::vector <Balles*> *getTableauBalles();
-	void setDirectionBalle(short int direction);
-	int getArmeDegat() {
-		return degat;
-	}
+	int getArmeDegat();
 	int getVitesseArme();
 	int getMunitions();
+	std::vector <Balles*> *getTableauBalles();
 };
 

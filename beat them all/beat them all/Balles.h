@@ -14,6 +14,7 @@ protected:
 	sf::CircleShape *cercle; //déclaration de la variable
 	sf::Clock clock;
 	sf::Time dureeVie = sf::Time::Zero;
+	sf::Time dureeVieMax = sf::milliseconds(4000);
 public:
 	Balles(float positionX, float positionY, int direction,int tailleH, int tailleL);
 	~Balles();
@@ -21,6 +22,7 @@ public:
 	void avancer(sf::Time duréeitération, sf::RenderWindow * window);
 	
 	sf::Time getDureeVie();
+	sf::Time getDureeVieMax();
 	float getPositionX();
 	float getPositionY();
 	int getDiametre();

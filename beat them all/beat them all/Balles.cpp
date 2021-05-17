@@ -6,17 +6,19 @@ Balles::Balles(float positionX, float positionY,int direction, int tailleH, int 
 	cercle->setPosition(positionX+ tailleL /2, positionY+ tailleH /3);
 	this->vitesse = this->vitesse*direction;
 }
-
+Balles::~Balles() {
+	delete cercle;
+}
 void Balles::avancer(sf::Time duréeitération, sf::RenderWindow * window) {
 	cercle->move(vitesse * duréeitération.asSeconds(), 0);
 	window->draw(*cercle);
 }
-Balles::~Balles() {
-	delete cercle;
-}
 sf::Time Balles::getDureeVie() {
 	dureeVie += clock.restart();
 	return dureeVie;
+}
+sf::Time Balles::getDureeVieMax() {
+	return dureeVieMax;
 }
 float Balles::getPositionX() {
 	return cercle->getPosition().x;

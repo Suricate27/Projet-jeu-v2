@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/graphics.hpp>
+#include <iostream>
 class Crate
 {
 protected:

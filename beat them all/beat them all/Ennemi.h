@@ -25,18 +25,20 @@ protected:
 public:
 	Ennemi(int niveau,int PositionXPersonnage);
 	Ennemi(int niveau);
-	~Ennemi();
+
 	void recevoirDegat(int degat);
-	int getDegat();
-	int getVie();
 	void deplacement(int positionPersonnageX, int positionPersonnageY);
 	void setVie(int degat);
-	sf::Sprite * getSpriteEnnemi();
-	int getDimensionH();
-	int getDimensionL();
 	void toucheCac(int direction);
 	void apparition(int niveau);
-	void apparition(int niveau,int PositionXPersonnage);
+	void apparition(int niveau, int PositionXPersonnage);
+
+	int getDegat();
+	int getVie();
+	int getDimensionH();
+	int getDimensionL();
+
+	sf::Sprite * getSpriteEnnemi();
 	std::vector <Ennemi*>*getTabEnnemi();
 };
 

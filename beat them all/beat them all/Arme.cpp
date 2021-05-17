@@ -1,11 +1,7 @@
 #include "Arme.h"
 Arme::Arme() {
-	munitions = 32;
 	nom = "pistolet";
-	type = classe{ léger };
-	distance = 1;
 }
-
 void Arme::tirer(float PosXJoueur,float PosYJoueur,int direction, int taillePersoH,int taillePersoL) {
 	if (timerTir.getElapsedTime().asMilliseconds() > 200)
 	{
@@ -14,10 +10,8 @@ void Arme::tirer(float PosXJoueur,float PosYJoueur,int direction, int taillePers
 			tableauBalles.push_back(balle);
 			munitions--;
 			timerTir.restart();
-
 		}
-	}
-	
+	}	
 }
 int Arme::getMunitions() {
 	return munitions;
@@ -26,10 +20,11 @@ int Arme::getVitesseArme() {
 	return VitesseArme;
 }
 void Arme::recharger() {
-	munitions = 32;
+	munitions = capaciteChargeur;
 }
 std::vector <Balles*>   *Arme::getTableauBalles() {
 	return &tableauBalles;
 }
-void Arme::setDirectionBalle(short int direction) {
+int Arme::getArmeDegat() {
+	return degat;
 }

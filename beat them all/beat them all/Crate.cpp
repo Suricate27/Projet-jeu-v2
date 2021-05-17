@@ -1,5 +1,5 @@
 #include "Crate.h"
-#include <iostream>
+
 Crate::Crate(int positionX,int positionY) {
 	if (!texture.loadFromFile("Textures/Crate.png") ){
 		std::cout <<"erreur chargement texture crate"<<std::endl;
