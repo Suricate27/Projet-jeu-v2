@@ -102,22 +102,21 @@ flag:
 		textmenu->setFont(font);
 		textmenu->setCharacterSize(largeurEcran / 30);
 		textmenu->setFillColor(sf::Color::Blue);
-		textmenu->setPosition((largeurEcran / 2) - textmenu->getLocalBounds().width/2, 0);
+		textmenu->setPosition(vue.getCenter().x - textmenu->getLocalBounds().width/2, 0);
 		window.draw(*textmenu);
 		textmenu->setString("Jouer niveau 1");
 		if(selectionMenu == 1)textmenu->setFillColor(sf::Color::Red);
 		else textmenu->setFillColor(sf::Color::White);
 		textmenu->setCharacterSize(largeurEcran / 50);
-		textmenu->setPosition((largeurEcran / 2) - textmenu->getLocalBounds().width/2, 100);
+		textmenu->setPosition(vue.getCenter().x- textmenu->getLocalBounds().width/2, 100);
 		window.draw(*textmenu);
 		textmenu->setString("Jouer niveau 2");
 		if (selectionMenu == 2)textmenu->setFillColor(sf::Color::Red);
 		else textmenu->setFillColor(sf::Color::White);
 		textmenu->setCharacterSize(largeurEcran / 50);
-		textmenu->setPosition((largeurEcran / 2) - textmenu->getLocalBounds().width/2, 200);
+		textmenu->setPosition(vue.getCenter().x - textmenu->getLocalBounds().width/2, 200);
 		window.draw(*textmenu);
 		}
-
 		if (!menuIsOpen) {
 			if (hero->getSpritePerso()->getPosition().x> 2000 && vague1 == false)
 			{

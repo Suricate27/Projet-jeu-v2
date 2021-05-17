@@ -207,7 +207,7 @@ void Personnage::testingCollision(Arme * arme, std::vector<Ennemi*>* tabEnnemi, 
 
 			if (cac == true && clockcorpacorp.getElapsedTime().asMilliseconds() > 300) {
 				ennemi->recevoirDegat(degatCac);
-				ennemi->toucheCac();
+				ennemi->toucheCac(direction);
 				clockcorpacorp.restart();
 				if (ennemi->getVie() <= 0) {
 					delete ennemi;
@@ -221,7 +221,7 @@ void Personnage::testingCollision(Arme * arme, std::vector<Ennemi*>* tabEnnemi, 
 	for (BoiteSecours * objetramasse : *tabObjRamassé) {
 		k++;
 		if (std::abs(objetramasse->getsprite()->getPosition().x + float(objetramasse->getDimension() / 2) - (spritePerso.getPosition().x + float(dimensionL / 2))) < float(dimensionL*0.8) && std::abs(objetramasse->getsprite()->getPosition().y + float(objetramasse->getDimension() / 2) - (spritePerso.getPosition().y + float(dimensionH / 2))) < float(0.8*dimensionH)) {
-			ramasseBoiteSecours(10);
+			ramasseBoiteSecours(objetramasse->getCapaciteSoins());
 			delete objetramasse;
 			tabObjRamassé->erase(tabObjRamassé->begin() + k);
 		}

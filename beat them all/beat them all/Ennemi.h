@@ -34,7 +34,7 @@ public:
 	sf::Sprite * getSpriteEnnemi();
 	int getDimensionH();
 	int getDimensionL();
-	void toucheCac();
+	void toucheCac(int direction);
 	void apparition(int niveau);
 	void apparition(int niveau,int PositionXPersonnage);
 	std::vector <Ennemi*>*getTabEnnemi();

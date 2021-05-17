@@ -6,12 +6,14 @@ class BoiteSecours
 {
 protected:
 	int dimension = 34;
+	int capaciteSoins = 10;
 	sf::Texture texture;
 	sf::Sprite sprite;
 public:
 	BoiteSecours(int positionX, int positionY);
 	int getDimension();
 	sf::Sprite * getsprite();
+	int getCapaciteSoins();
 
 
 };

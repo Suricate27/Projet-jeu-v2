@@ -16,3 +16,6 @@ int BoiteSecours::getDimension() {
 sf::Sprite * BoiteSecours::getsprite() {
 	return &sprite;
 }
+int BoiteSecours::getCapaciteSoins() {
+	return capaciteSoins;
+}
