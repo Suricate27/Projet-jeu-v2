@@ -20,10 +20,9 @@
 void paramVue(sf::View *vue, sf::Sprite *spritePerso, sf::RenderWindow *window, Personnage *hero);
 void nettoyage(Map *niveau);
 int main() {
-	std::cout <<"largeur ecran : " <<largeurEcran << std::endl;
 	//objet
 	bool menuIsOpen = true;
-	bool GodMode = 0;
+	bool GodMode = 1;
 	srand(time(NULL));
 	//fen�tre
 	sf::RenderWindow window(sf::VideoMode(largeurEcran, longueurEcran), "Beat Them All", sf::Style::Close); //cr�ation de la fen�tre (dimension, titre)
@@ -47,10 +46,10 @@ flag:
 		ennemi->apparition(4);
 		ennemi->apparition(1);
 		for (int i = 0; i < 10/mapLevel; i++) {
-			niveau->creationBoiteSecours((rand() % 500 + 700) + i * 1000, (rand() % 200 + 300) - niveau->getDimensionSecours());
+			niveau->creationBoiteSecours((rand() % 500 + 700) + i * 1000, (rand() % 150 + 350) - niveau->getDimensionSecours());
 		}
 		for (int i = 0; i < 6*mapLevel; i++) {
-			niveau->CreationBoite((rand() % 500 + 700) + i * 2000, (rand() % 200 + 300) - niveau->getDimensionCrate());
+			niveau->CreationBoite((rand() % 500 + 700) + i * 2000, (rand() % 150 + 350) - niveau->getDimensionCrate());
 		}
 		
 	}
@@ -75,11 +74,9 @@ flag:
 						{
 						case sf::Keyboard::Down:
 							if (selectionMenu < 2)selectionMenu += 1;
-							std::cout << selectionMenu << std::endl;
 							break;
 						case sf::Keyboard::Up:
 							if (selectionMenu > 1)selectionMenu -= 1;
-							std::cout << selectionMenu << std::endl;
 							break;
 						case sf::Keyboard::Enter:
 							mapLevel = selectionMenu;

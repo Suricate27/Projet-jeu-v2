@@ -4,7 +4,6 @@ Arme::Arme() {
 	nom = "pistolet";
 	type = classe{ léger };
 	distance = 1;
-	std::cout << "Apparition arme" << std::endl;
 }
 
 void Arme::tirer(float PosXJoueur,float PosYJoueur, sf::RenderWindow * window,int direction, int taillePersoH,int taillePersoL) {
