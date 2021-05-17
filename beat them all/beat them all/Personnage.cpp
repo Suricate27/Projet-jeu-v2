@@ -77,7 +77,7 @@ void Personnage::deplacement(sf::Time duréeitération, sf::RenderWindow * window,
 		updateFPS = true;
 	}
 	else if (moveRight) {
-		if (spritePerso.getPosition().x <= 10000 - dimensionL) {
+		if (spritePerso.getPosition().x <= 15000 - dimensionL) {
 			spritePerso.move( vitesseDeplacement*duréeitération.asSeconds(), 0);
 		}
 		animation.y = droite;

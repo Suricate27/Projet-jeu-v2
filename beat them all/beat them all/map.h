@@ -34,7 +34,7 @@ protected:
 	
 
 public:
-	Map();
+	Map(int maplevel);
 	void creationCercle(float positionX, float positionY);
 	void avancer();
 	std::vector<BoiteSecours*> * getTabBoiteSecours();

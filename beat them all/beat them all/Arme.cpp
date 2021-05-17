@@ -4,7 +4,6 @@ Arme::Arme() {
 	nom = "pistolet";
 	type = classe{ léger };
 	distance = 1;
-	degat = 25;
 	std::cout << "Apparition arme" << std::endl;
 }
 

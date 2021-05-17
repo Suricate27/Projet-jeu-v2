@@ -1,14 +1,23 @@
 #include "Map.h"
+#include<filesystem>
 void Map::creationBoiteSecours(float positionX, float positionY) {
 	BoiteSecours *boite = new BoiteSecours(positionX, positionY);
 	TabBoiteSecours.push_back(boite);
 }
-Map::Map() {
-	if (!textureBack.loadFromFile("Textures/Back.png")) // v�rif ouverture fichier
+Map::Map(int maplevel) {
+	if (maplevel == 2) {
+		if (!textureBack.loadFromFile("Textures/Back2.png")) // v�rif ouverture fichier
+		{
+			std::cout << "Erreur chargement texture back" << std::endl;
+		}
+	 }
+	else
 	{
-		std::cout << "Erreur chargement texture back" << std::endl;
+		if (!textureBack.loadFromFile("Textures/Back.png")) // v�rif ouverture fichier
+		{
+			std::cout << "Erreur chargement texture back" << std::endl;
+		}
 	}
-
 	textureBack.setSmooth(true);
 	for (int i = 0; i < 21; i++)
 	{
@@ -19,7 +28,6 @@ Map::Map() {
 		tabFond.push_back(spriteBack);
 
 	}
-	
 }
 std::vector<sf::CircleShape*> * Map::getObjets() {
 	return &objets;

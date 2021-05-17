@@ -7,7 +7,7 @@ class Arme
 {
 protected:
 	int munitions;
-	int degat;
+	int degat = 25;
 	std::string nom;
 	enum classe { léger, lourd, explosif };
 	int type;

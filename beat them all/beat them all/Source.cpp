@@ -18,13 +18,12 @@
 #define largeurEcran 1000
 //fonction
 void paramVue(sf::View *vue, sf::Sprite *spritePerso, sf::RenderWindow *window, Personnage *hero);
-
+void nettoyage(Map *niveau);
 int main() {
 	std::cout <<"largeur ecran : " <<largeurEcran << std::endl;
 	//objet
 	bool menuIsOpen = true;
-	bool GodMode = true;
-	bool vague1 = 0, vague2 = 0, vague3 = 0, vagueBoss=0;
+	bool GodMode = 0;
 	srand(time(NULL));
 	//fen�tre
 	sf::RenderWindow window(sf::VideoMode(largeurEcran, longueurEcran), "Beat Them All", sf::Style::Close); //cr�ation de la fen�tre (dimension, titre)
@@ -33,21 +32,28 @@ int main() {
 	sf::Time Dureeiteration;
 	sf::Font font;
 	sf::Text *textmenu = new sf::Text;
-	int mapLevel;
-
-	Map niveau1;
-	/*std::vector<Ennemi*> tabEnnemi;*/
-	Ennemi *ennemi = new Ennemi(1);
-	ennemi->apparition(4);
-	ennemi->apparition(1);
-	int selectionMenu=1;
-	for (int i = 0; i < 10; i++) {
-		niveau1.creationBoiteSecours((rand()%500+700)+i*1000, (rand()%200+300)-niveau1.getDimensionSecours());
+	int mapLevel=1;
+	int selectionMenu = 1;
+	Map *niveau = new Map(1);
+	Ennemi *ennemi=new Ennemi(1);
+	Personnage *hero = new Personnage(100, 100, "Lord");
+	bool vague1 = 0, vague2 = 0, vague3 = 0, vagueBoss = 0;
+flag:
+	vague1 = 0, vague2 = 0, vague3 = 0, vagueBoss = 0;
+	niveau = new Map(mapLevel);
+	if (!menuIsOpen) {
+		hero = new Personnage(100, 100, "Lord");
+		ennemi = new Ennemi(1);
+		ennemi->apparition(4);
+		ennemi->apparition(1);
+		for (int i = 0; i < 10/mapLevel; i++) {
+			niveau->creationBoiteSecours((rand() % 500 + 700) + i * 1000, (rand() % 200 + 300) - niveau->getDimensionSecours());
+		}
+		for (int i = 0; i < 6*mapLevel; i++) {
+			niveau->CreationBoite((rand() % 500 + 700) + i * 2000, (rand() % 200 + 300) - niveau->getDimensionCrate());
+		}
+		
 	}
-	for (int i = 0; i < 6; i++) {
-		niveau1.CreationBoite((rand() % 500 + 700) + i * 2000, (rand() % 200 + 300)-niveau1.getDimensionCrate());
-	}
-	Personnage *hero = new Personnage(100, 100, "test");;
 	//début de la boucle fenetre ouverte
 	while (window.isOpen()) {
 		Dureeiteration = clock.restart();
@@ -78,20 +84,17 @@ int main() {
 						case sf::Keyboard::Enter:
 							mapLevel = selectionMenu;
 							menuIsOpen = false;
+							goto flag;
 						}
-					
-
-					}
-				
-					
+					}		
 				}
 				break;
 			}//gestion clavier 	
 		}
 		if(menuIsOpen){
 		window.clear();//nettoyage
-		//niveau1.affichageMenu();
-		//niveau1.affichage(&window);
+		//niveau->.affichageMenu();
+		//niveau->.affichage(&window);
 		if (!font.loadFromFile("arial.ttf")) {
 			std::cout << "Erreur chargement Police : arial.ttf introuvable" << std::endl;
 		}
@@ -119,32 +122,34 @@ int main() {
 			if (hero->getSpritePerso()->getPosition().x> 2000 && vague1 == false)
 			{
 				vague1 = true;
-				for (int i = 0; i < 4; i++) {
+				for (int i = 0; i < 4*mapLevel; i++) {
 					ennemi->apparition(1, hero->getSpritePerso()->getPosition().x);
 				}
 			}
 			if (hero->getSpritePerso()->getPosition().x > 4000 && vague2 == false)
 			{
 				vague2= true;
-				for (int i = 0; i < 4; i++) {
+				for (int i = 0; i < 4*mapLevel; i++) {
 					ennemi->apparition(2, hero->getSpritePerso()->getPosition().x);
 				}
 			}
 			if (hero->getSpritePerso()->getPosition().x > 6000 && vague3 == false)
 			{
 				vague3= true;
-				for (int i = 0; i < 4; i++) {
+				for (int i = 0; i < 4*mapLevel; i++) {
 					ennemi->apparition(3, hero->getSpritePerso()->getPosition().x);
 				}
 			}
 			if (hero->getSpritePerso()->getPosition().x > 10000 && vagueBoss == false)
 			{
 				vagueBoss = true;
+				for (int i = 0; i < 2*mapLevel; i++) {
 					ennemi->apparition(4, hero->getSpritePerso()->getPosition().x);
+				}	
 				
 			}
-			hero->deplacement(Dureeiteration, &window, niveau1.getTabCrate()); // gestion animation + déplacement
-			hero->testingCollision(hero->getArme(),ennemi->getTabEnnemi(), niveau1.getTabBoiteSecours());
+			hero->deplacement(Dureeiteration, &window, niveau->getTabCrate()); // gestion animation + déplacement
+			hero->testingCollision(hero->getArme(),ennemi->getTabEnnemi(), niveau->getTabBoiteSecours());
 			for (Ennemi * mechant : *ennemi->getTabEnnemi()) {
 				mechant->deplacement(hero->getPositionX(), hero->getPositionY());
 			}
@@ -155,27 +160,32 @@ int main() {
 					menuIsOpen = true;
 				}
 			}
+			if (ennemi->getTabEnnemi()->size() == 0 && vagueBoss == true) {
+				mapLevel = 2;
+				nettoyage(niveau);
+				goto flag;
+			}
 			////////////////////AFFICHAGE///////////////////////////
 		window.clear();//nettoyage
 
 		paramVue(&vue, hero->getSpritePerso(), &window, hero);// paramétrage de la vue
-		for (sf::Sprite * sprite : *niveau1.getTabFond()) {
+		for (sf::Sprite * sprite : *niveau->getTabFond()) {
 			window.draw(*sprite);
 		}
-		for (Crate * crate : *niveau1.getTabCrate()) {
+		for (Crate * crate : *niveau->getTabCrate()) {
 			window.draw(*crate->getSpriteCrate());
 		}
 		window.draw(*hero->getSpritePerso()); // affichage de notre personnage
 		
-		niveau1.affichageBarreVie(vue.getCenter().x,hero->getVie(),hero->getFatigue());
-		for (sf::RectangleShape * rect : *niveau1.getTabBarreVie())
+		niveau->affichageBarreVie(vue.getCenter().x,hero->getVie(),hero->getFatigue());
+		for (sf::RectangleShape * rect : *niveau->getTabBarreVie())
 		{
 			window.draw(*rect);
 		}
-		niveau1.affichageTextMunitions(hero->getArme()->getMunitions(), niveau1.getPositionBarreVie());
-		niveau1.afficherTexte(niveau1.getPositionBarreVie());
-		niveau1.affichage(&window);
-		for (BoiteSecours * objet : *niveau1.getTabBoiteSecours()) {
+		niveau->affichageTextMunitions(hero->getArme()->getMunitions(), niveau->getPositionBarreVie());
+		niveau->afficherTexte(niveau->getPositionBarreVie());
+		niveau->affichage(&window);
+		for (BoiteSecours * objet : *niveau->getTabBoiteSecours()) {
 			window.draw(*objet->getsprite());
 		}
 		for (Ennemi * mechant : *ennemi->getTabEnnemi()) {
@@ -183,8 +193,11 @@ int main() {
 		}
 		hero->deplacementBalle(Dureeiteration, &window);
 		}
+
 		window.display();//affichage de la fenétre
-		
+		if (menuIsOpen) {
+			nettoyage(niveau);
+		}
 	}
 }
 void paramVue(sf::View *vue, sf::Sprite *spritePerso, sf::RenderWindow *window, Personnage *hero) {
@@ -199,6 +212,16 @@ void paramVue(sf::View *vue, sf::Sprite *spritePerso, sf::RenderWindow *window, 
 	vue->reset(sf::FloatRect(position.x, position.y, largeurEcran, longueurEcran)); // reset de la vue
 	window->setView(*vue); // affichage de la vue 
 
+}
+void nettoyage(Map *niveau) {
+	for (BoiteSecours * objet : *niveau->getTabBoiteSecours()) {
+		delete objet;
+	}
+	niveau->getTabBoiteSecours()->clear();
+	for (Crate * crate : *niveau->getTabCrate()) {
+		delete crate;
+	}
+	niveau->getTabCrate()->clear();
 }
 
 
