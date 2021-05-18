@@ -18,7 +18,7 @@ void paramVue(sf::View *vue, sf::Sprite *spritePerso, sf::RenderWindow *window, 
 void nettoyage(Map *niveau,Personnage * hero);
 int main() {
 	bool menuIsOpen = true;
-	bool GodMode = 1;
+	bool GodMode = 0;
 	srand(time(NULL));
 	//fen�tre
 	sf::RenderWindow window(sf::VideoMode(largeurEcran, longueurEcran), "Beat Them All", sf::Style::Close); //cr�ation de la fen�tre (dimension, titre)
@@ -40,8 +40,6 @@ flag:
 		hero = new Personnage(100, 100, "Lord");
 		ennemi = new Ennemi(1);
 		//Direct dans la partie
-		ennemi->apparition(4);
-		ennemi->apparition(1);
 		for (int i = 0; i < 10/mapLevel; i++) {
 			niveau->creationBoiteSecours((rand() % 500 + 700) + i * 1000, (rand() % 150 + 350) - niveau->getDimensionSecours());
 		}
@@ -154,8 +152,6 @@ flag:
 				}
 			}
 			//lancement niveau 2
-			std::cout << hero->getSpritePerso()->getPosition().x << std::endl;
-
 			if (ennemi->getTabEnnemi()->size() == 0 && vagueBoss == true && hero->getSpritePerso()->getPosition().x > 12500) {
 				if (mapLevel == 1) {
 					mapLevel = 2;

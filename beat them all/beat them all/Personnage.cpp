@@ -38,22 +38,17 @@ void Personnage::deplacement(sf::Time duréeitération, std::vector<Crate*>*tabCra
 		// Donc on va calculer le déplacement avec temps passé avec la touche enfoncée.
 	for (Crate * crate : *tabCrate) {
 		if (std::abs(crate->getSpriteCrate()->getPosition().x + float(crate->getDimension() / 2) - (spritePerso.getPosition().x + float(dimensionL / 2))) < float(0.8*dimensionL) && std::abs(crate->getSpriteCrate()->getPosition().y + float(crate->getDimension() / 2) - (spritePerso.getPosition().y + float(dimensionH / 2))) < float(0.8*dimensionH)) {
-			
-			if (crate->getSpriteCrate()->getPosition().x+34 > spritePerso.getPosition().x) {
-				spritePerso.move(- 5, 0);
-				//moveRight = 0;
+			if (crate->getSpriteCrate()->getPosition().x > spritePerso.getPosition().x) {
+				moveRight = 0;
 			}
-			else if (spritePerso.getPosition().x -34 > crate->getSpriteCrate()->getPosition().x) {
-				spritePerso.move( 5, 0);
-				//moveLeft = 0;
+			if (spritePerso.getPosition().x > crate->getSpriteCrate()->getPosition().x) {
+				moveLeft = 0;
 			}
-			else if (spritePerso.getPosition().y > crate->getSpriteCrate()->getPosition().y) {
-				spritePerso.move(0, 5);
-				//moveUp = 0;
+			if (spritePerso.getPosition().y > crate->getSpriteCrate()->getPosition().y) {
+				moveUp = 0;
 			}
-			else if (spritePerso.getPosition().y < crate->getSpriteCrate()->getPosition().y) {
-				spritePerso.move(0, -5);
-				//moveDown = 0;
+			if (spritePerso.getPosition().y < crate->getSpriteCrate()->getPosition().y) {
+				moveDown = 0;
 			}
 		}
 	}
